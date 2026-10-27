@@ -1,0 +1,741 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#17212D" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Eesti Teekond</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800;900&display=swap">
+<style>
+/* Layout: one narrow phone column; a zig-zag path of round lesson nodes grouped by unit bands, full-screen lesson player on top. */
+:root{
+  --bg:#F4F7FB; --surface:#FFFFFF; --ink:#16212E; --muted:#66768A; --line:#DDE4EE; --line-d:#C5CFDC;
+  --blue:#1F6FD1; --blue-d:#1557A8; --ok:#2EA44F; --ok-d:#1F7E3A; --ok-bg:#E3F6E8; --bad:#E0454B; --bad-d:#B3333A; --bad-bg:#FDE7E8;
+  --gold:#F2B705; --gold-d:#C38F00; --heart:#EC4A57; --flame:#FF8A1F; --lock:#D5DCE6; --lock-d:#B9C3D1; --lock-ink:#98A5B6;
+  --bird:#1E3A6B; --bird-2:#2B5398; --belly:#FFFFFF;
+  --u1:#1F6FD1; --u1-d:#1557A8; --u2:#12958A; --u2-d:#0C7168; --u3:#8A4FD8; --u3-d:#6936AE; --u4:#E07F00; --u4-d:#B06300; --u5:#D23F69; --u5-d:#A42D50; --u6:#3D8B37; --u6-d:#2B6927;
+  --f-display:"Baloo 2","Trebuchet MS",system-ui,sans-serif; --f-body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0E151F; --surface:#17212D; --ink:#E9EFF7; --muted:#95A3B6; --line:#2A3748; --line-d:#1D2836;
+  --blue:#4A8EE8; --blue-d:#2E68B5; --ok:#3CBF62; --ok-d:#258A43; --ok-bg:#16301F; --bad:#F0626A; --bad-d:#B83C44; --bad-bg:#3A1C20;
+  --gold:#F5C22E; --gold-d:#B88E10; --heart:#F2626E; --flame:#FF9C3D; --lock:#2A3646; --lock-d:#1C2633; --lock-ink:#64748A;
+  --bird:#3B66B0; --bird-2:#5585D4; --belly:#EEF3FA; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E151F; --surface:#17212D; --ink:#E9EFF7; --muted:#95A3B6; --line:#2A3748; --line-d:#1D2836;
+  --blue:#4A8EE8; --blue-d:#2E68B5; --ok:#3CBF62; --ok-d:#258A43; --ok-bg:#16301F; --bad:#F0626A; --bad-d:#B83C44; --bad-bg:#3A1C20;
+  --gold:#F5C22E; --gold-d:#B88E10; --heart:#F2626E; --flame:#FF9C3D; --lock:#2A3646; --lock-d:#1C2633; --lock-ink:#64748A;
+  --bird:#3B66B0; --bird-2:#5585D4; --belly:#EEF3FA; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.app{max-width:540px;margin:0 auto;min-height:100%;display:flex;flex-direction:column}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:2px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.flag{width:30px;height:21px;border-radius:5px;overflow:hidden;display:grid;grid-template-rows:1fr 1fr 1fr;box-shadow:0 0 0 2px var(--line)}
+.flag i:nth-child(1){background:#0072CE}.flag i:nth-child(2){background:#000}.flag i:nth-child(3){background:#fff}
+.stat{display:flex;align-items:center;gap:5px;font-weight:900;font-size:16px;font-variant-numeric:tabular-nums}
+.stat svg{width:24px;height:24px}
+.stat.off{color:var(--lock-ink)}
+.s-flame{color:var(--flame)}.s-gem{color:var(--blue)}.s-heart{color:var(--heart)}
+
+/* path */
+main{flex:1;padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+.unit{margin-top:22px}
+.ubar{border-radius:16px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 14px 14px 18px;box-shadow:0 4px 0 var(--ud)}
+.ubar small{display:block;font-weight:800;letter-spacing:.08em;font-size:12px;opacity:.85;text-transform:uppercase}
+.ubar h2{margin:0;font-family:var(--f-display);font-weight:800;font-size:24px;line-height:1.1}
+.ubar p{margin:2px 0 0;font-weight:700;opacity:.92;font-size:15px}
+.gbtn{flex:none;display:flex;align-items:center;gap:6px;border:2px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);color:#fff;border-radius:12px;padding:8px 11px;font-weight:900;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.gbtn svg{width:18px;height:18px}
+.nodes{position:relative;display:flex;flex-direction:column;align-items:center;gap:20px;padding-block:28px 6px}
+.nwrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
+.node{width:74px;height:70px;border:none;border-radius:50%;background:var(--c);box-shadow:0 7px 0 var(--cd);display:grid;place-items:center;color:#fff;transition:transform .08s}
+.node:active{transform:translateY(5px);box-shadow:0 2px 0 var(--cd)}
+.node svg{width:34px;height:34px}
+.node.locked{--c:var(--lock);--cd:var(--lock-d);color:var(--lock-ink)}
+.node.done{--c:var(--gold);--cd:var(--gold-d)}
+.node.cur{outline:6px solid color-mix(in srgb,var(--c) 28%,transparent);outline-offset:5px}
+.start-tag{position:absolute;bottom:calc(100% + 10px);background:var(--surface);color:var(--c);border:2px solid var(--line);font-weight:900;font-size:14px;letter-spacing:.06em;padding:6px 12px;border-radius:12px;white-space:nowrap;animation:bob 1.4s ease-in-out infinite}
+.start-tag::after{content:"";position:absolute;left:50%;top:100%;width:12px;height:12px;background:var(--surface);border:2px solid var(--line);border-top:none;border-left:none;transform:translate(-50%,-6px) rotate(45deg)}
+@keyframes bob{50%{transform:translateY(-5px)}}
+.pmascot{position:absolute;z-index:0;width:78px;top:50%;transform:translateY(-50%);pointer-events:none}
+.pmascot.r{right:4px}.pmascot.l{left:4px;transform:translateY(-50%) scaleX(-1)}
+.endnote{margin:34px 0 10px;text-align:center;color:var(--muted);font-weight:700}
+
+/* bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:2px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav .in{max-width:540px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:8px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
+.nav button{border:2px solid transparent;background:none;border-radius:14px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:800;font-size:12px;color:var(--muted);letter-spacing:.03em}
+.nav button svg{width:26px;height:26px}
+.nav button[aria-current="page"]{border-color:color-mix(in srgb,var(--blue) 45%,transparent);background:color-mix(in srgb,var(--blue) 10%,transparent);color:var(--blue)}
+
+/* generic buttons */
+.btn{border:none;border-radius:16px;padding:14px 18px;font-weight:900;font-size:16px;letter-spacing:.06em;text-transform:uppercase;background:var(--b,var(--blue));color:#fff;box-shadow:0 4px 0 var(--bd,var(--blue-d));width:100%;transition:transform .06s}
+.btn:active:not(:disabled){transform:translateY(4px);box-shadow:0 0 0 var(--bd,var(--blue-d))}
+.btn:disabled{background:var(--lock);color:var(--lock-ink);box-shadow:0 4px 0 var(--lock-d);cursor:default}
+.btn.ghost{background:var(--surface);color:var(--blue);border:2px solid var(--line);box-shadow:0 4px 0 var(--line)}
+.btn.ok{--b:var(--ok);--bd:var(--ok-d)}.btn.bad{--b:var(--bad);--bd:var(--bad-d)}
+
+/* sheet */
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(10,18,30,.45);display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
+@keyframes fade{from{opacity:0}}
+.sheet{width:100%;max-width:540px;max-height:86%;overflow:auto;background:var(--surface);border-radius:22px 22px 0 0;padding:20px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));animation:up .2s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:.4}}
+.sheet h3{font-family:var(--f-display);font-size:24px;margin:0 0 4px;line-height:1.15;text-wrap:balance}
+.sheet .eyebrow{font-weight:900;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 18px}
+.chip{border:2px solid var(--line);border-radius:10px;padding:3px 9px;font-weight:800;font-size:14px}
+.guide h4{font-family:var(--f-display);font-size:19px;margin:18px 0 4px}
+.guide p{margin:6px 0;color:var(--ink)}
+.guide .ex{background:var(--bg);border-radius:12px;padding:10px 12px;margin:8px 0;font-weight:700}
+.guide .ex b{color:var(--blue)}
+.guide table{border-collapse:collapse;width:100%;font-weight:700;margin:8px 0}
+.guide td{border-bottom:2px solid var(--line);padding:6px 4px}
+.guide td:first-child{color:var(--muted)}
+
+/* pages */
+.page{padding-block:20px}
+.page h1{font-family:var(--f-display);font-size:28px;margin:0 0 4px}
+.page .sub{color:var(--muted);font-weight:700;margin:0 0 16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{border:2px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;gap:10px;align-items:center;background:var(--surface)}
+.tile svg{width:28px;height:28px;flex:none}
+.tile b{display:block;font-size:20px;font-weight:900;font-variant-numeric:tabular-nums;line-height:1.1}
+.tile span{color:var(--muted);font-weight:700;font-size:13px}
+.sect{margin-top:22px}
+.sect h2{font-family:var(--f-display);font-size:20px;margin:0 0 8px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:2px solid var(--line);font-weight:700}
+.row:last-child{border-bottom:none}
+.row .lbl{min-width:0}
+.row .lbl small{display:block;color:var(--muted);font-weight:600}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:5px 10px;font-weight:800}
+.seg button[aria-pressed="true"]{border-color:var(--blue);color:var(--blue);background:color-mix(in srgb,var(--blue) 10%,transparent)}
+.sw{appearance:none;width:48px;height:28px;border-radius:99px;background:var(--lock);position:relative;flex:none;cursor:pointer;transition:background .15s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .15s}
+.sw:checked{background:var(--ok)}.sw:checked::after{transform:translateX(20px)}
+.card{border:2px solid var(--line);border-radius:16px;padding:4px 14px;background:var(--surface)}
+.wlist .w{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:2px solid var(--line)}
+.wlist .w:last-child{border-bottom:none}
+.wlist .w .em{font-size:22px;width:30px;text-align:center}
+.wlist .w .tx{flex:1;min-width:0}
+.wlist .w .et{font-weight:900}
+.wlist .w .it{color:var(--muted);font-weight:600;font-size:14px}
+.spk{border:2px solid var(--line);background:var(--surface);border-radius:10px;width:38px;height:34px;display:grid;place-items:center;color:var(--blue);flex:none}
+.spk svg{width:20px;height:20px}
+.empty{color:var(--muted);font-weight:700;text-align:center;padding:30px 10px}
+.danger{color:var(--bad)}
+
+/* lesson player */
+.player{position:fixed;inset:0;z-index:50;background:var(--surface);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+.player>*{width:100%;max-width:640px;margin-left:auto;margin-right:auto}
+.phead{display:flex;align-items:center;gap:14px;padding:14px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
+.xbtn{border:none;background:none;color:var(--lock-ink);width:32px;height:32px;display:grid;place-items:center;flex:none}
+.xbtn svg{width:26px;height:26px}
+.pbar{flex:1;height:16px;border-radius:99px;background:var(--lock);overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--ok);border-radius:99px;transition:width .35s ease;box-shadow:inset 0 4px 0 rgba(255,255,255,.28)}
+.pbody{flex:1;overflow:auto;padding:12px max(16px,env(safe-area-inset-right,0px)) 20px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
+.pbody h2{font-family:var(--f-display);font-size:24px;line-height:1.2;margin:4px 0 0;text-wrap:balance}
+.newtag{color:var(--u3);font-weight:900;font-size:13px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.pfoot{border-top:2px solid var(--line);padding:16px max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;gap:12px}
+.pfoot .btn{flex:1}
+.pfoot .skip{flex:0 0 auto;width:auto}
+.fb{border-top:none}
+.fb.good{background:var(--ok-bg)}.fb.wrong{background:var(--bad-bg)}
+.fbin{display:flex;flex-direction:column;gap:12px;width:100%}
+.fbt{display:flex;align-items:flex-start;gap:12px}
+.fbt .ic{width:40px;height:40px;border-radius:50%;background:var(--surface);display:grid;place-items:center;flex:none}
+.fbt .ic svg{width:24px;height:24px}
+.fbt h3{margin:0;font-family:var(--f-display);font-size:22px;line-height:1.15}
+.fb.good h3,.fb.good .fbtx{color:var(--ok-d)}.fb.wrong h3,.fb.wrong .fbtx{color:var(--bad-d)}
+:root[data-theme="dark"] .fb.good h3,:root[data-theme="dark"] .fb.good .fbtx{color:var(--ok)}
+:root[data-theme="dark"] .fb.wrong h3,:root[data-theme="dark"] .fb.wrong .fbtx{color:var(--bad)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .fb.good h3,:root:not([data-theme="light"]) .fb.good .fbtx{color:var(--ok)}:root:not([data-theme="light"]) .fb.wrong h3,:root:not([data-theme="light"]) .fb.wrong .fbtx{color:var(--bad)}}
+.fbtx{font-weight:800;margin-top:2px}
+.fbtx small{display:block;font-weight:700;opacity:.85}
+
+/* exercises */
+.pics{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pic{border:2px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:0 4px 0 var(--line);padding:14px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:800;font-size:17px}
+.pic .em{font-size:52px;line-height:1.1}
+.sel,.pic.sel,.opt.sel{border-color:var(--blue)!important;background:color-mix(in srgb,var(--blue) 10%,var(--surface))!important;box-shadow:0 4px 0 color-mix(in srgb,var(--blue) 60%,transparent)!important;color:var(--blue)}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{border:2px solid var(--line);border-radius:16px;background:var(--surface);box-shadow:0 4px 0 var(--line);padding:13px 14px;display:flex;align-items:center;gap:12px;font-weight:800;font-size:17px;text-align:left}
+.opt .k{width:28px;height:28px;border:2px solid var(--line);border-radius:8px;display:grid;place-items:center;font-size:13px;color:var(--muted);flex:none}
+.speech{display:flex;align-items:flex-end;gap:8px}
+.speech .m{width:92px;flex:none}
+.bubble{position:relative;border:2px solid var(--line);border-radius:16px;padding:12px 14px;font-weight:800;font-size:18px;display:flex;align-items:center;gap:10px;margin-bottom:22px;min-width:0}
+.bubble::before{content:"";position:absolute;left:-9px;bottom:16px;width:14px;height:14px;background:var(--surface);border-left:2px solid var(--line);border-bottom:2px solid var(--line);transform:rotate(45deg)}
+.bubble .t{min-width:0}
+.listen{display:flex;gap:14px;justify-content:center;padding:10px 0}
+.bigspk{width:110px;height:96px;border:none;border-radius:20px;background:var(--blue);color:#fff;box-shadow:0 5px 0 var(--blue-d);display:grid;place-items:center}
+.bigspk svg{width:48px;height:48px}
+.bigspk.slow{width:76px;height:76px;align-self:flex-end}
+.bigspk.slow svg{width:32px;height:32px}
+.ansline{min-height:116px;border-top:2px solid var(--line);border-bottom:2px solid var(--line);background-image:linear-gradient(var(--line),var(--line));background-size:100% 2px;background-position:0 58px;background-repeat:no-repeat;display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px;padding:8px 0}
+.bank{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.wt{border:2px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:0 3px 0 var(--line);padding:7px 12px;font-weight:800;font-size:17px;min-height:44px}
+.wt.ghost{color:transparent;background:var(--line);box-shadow:none;pointer-events:none}
+textarea{width:100%;min-height:120px;resize:none;border:2px solid var(--line);border-radius:16px;background:var(--bg);color:var(--ink);font:inherit;font-size:18px;font-weight:700;padding:12px 14px}
+.keys{display:flex;gap:8px;flex-wrap:wrap}
+.keys button{border:2px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:0 3px 0 var(--line);width:44px;height:42px;font-weight:900;font-size:18px}
+.fill{font-size:21px;font-weight:800;line-height:2.1}
+.blank{display:inline-block;min-width:76px;border-bottom:3px solid var(--ink);text-align:center;padding:0 6px;color:var(--blue);line-height:1.3}
+.hint{color:var(--muted);font-weight:700}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.match .col{display:flex;flex-direction:column;gap:10px}
+.mt{border:2px solid var(--line);border-radius:14px;background:var(--surface);box-shadow:0 4px 0 var(--line);padding:12px 8px;font-weight:800;font-size:16px;min-height:56px}
+.mt.gone{opacity:.35;box-shadow:none;pointer-events:none;border-color:var(--ok)}
+.mt.err{border-color:var(--bad);color:var(--bad);animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* end + misc */
+.end{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:20px max(16px,env(safe-area-inset-right,0px)) 20px max(16px,env(safe-area-inset-left,0px))}
+.end h2{font-family:var(--f-display);font-size:32px;margin:0;color:var(--gold-d);line-height:1.1}
+.end .m{width:150px}
+.end .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;max-width:420px}
+.etile{border:2px solid var(--c);border-radius:14px;overflow:hidden}
+.etile small{display:block;background:var(--c);color:#fff;font-weight:900;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px}
+.etile b{display:flex;align-items:center;justify-content:center;gap:5px;padding:10px 4px;font-size:20px;font-weight:900;color:var(--c);font-variant-numeric:tabular-nums}
+.end p{margin:0;color:var(--muted);font-weight:700;max-width:34ch}
+.hop{animation:hop .6s ease-out}
+@keyframes hop{30%{transform:translateY(-14px) rotate(-4deg)}60%{transform:translateY(0)}80%{transform:translateY(-4px)}}
+.goal{margin-top:14px}
+.goalbar{height:14px;background:var(--lock);border-radius:99px;overflow:hidden;margin-top:6px}
+.goalbar i{display:block;height:100%;background:var(--gold);border-radius:99px}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:12px;font-weight:800;z-index:60;max-width:calc(100% - 32px);text-align:center}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head><body><div class="app" id="app"></div>
+<div id="layer"></div>
+
+<script>
+/* ============ CONTENUTI ============ */
+const w=(e,i,p,ia)=>({e,i,p,ia:ia||[]});
+const s=(e,i,ia,ea)=>({e,i,ia:ia||[],ea:ea||[]});
+const f=(q,o,a,i)=>({q,o,a,i});
+
+const UNITS=[
+{t:"Tervitused",s:"Saluti e cortesia",c:1,guide:`
+<h4>Niente articoli, niente genere</h4><p>In estone non esistono articoli (né il/la, né un/una) e i nomi non hanno genere.</p>
+<h4>L'accento è sulla prima sillaba</h4><p>Quasi sempre: <b>TE</b>-re, <b>AI</b>-täh, <b>PA</b>-lun.</p>
+<h4>Le vocali speciali</h4>
+<p><b>õ</b>: labbra distese come per «e», lingua arretrata come per «o». È il suono più tipico dell'estone.</p>
+<p><b>ä</b>: una «e» molto aperta. <b>ö</b> come in tedesco, <b>ü</b> come la «u» francese.</p>
+<h4>Le lettere doppie sono lunghe</h4><p>La durata cambia il significato:</p><div class="ex"><b>sada</b> = cento · <b>saada</b> = manda</div>
+<h4>Tere, a ogni ora</h4><p><b>Tere</b> va bene sempre. <b>Tere hommikust / päevast / õhtust</b> sono un po' più formali e legati all'ora del giorno.</p>`,
+L:[
+ {n:"Ciao!",w:[w("tere","ciao","👋",["salve"]),w("aitäh","grazie","🙏"),w("palun","per favore","🤲",["prego"]),w("jah","sì","✅",["si"]),w("ei","no","❌"),w("head aega","arrivederci","🚶")],
+  s:[s("Tere!","Ciao!",["Salve!"]),s("Aitäh!","Grazie!"),s("Jah, palun.","Sì, per favore."),s("Ei, aitäh.","No, grazie."),s("Head aega!","Arrivederci!"),s("Palun.","Prego.",["Per favore."])]},
+ {n:"Le ore del giorno",w:[w("tere hommikust","buongiorno","🌅",["buon giorno"]),w("tere päevast","buon pomeriggio","☀️",["buongiorno"]),w("tere õhtust","buonasera","🌆",["buona sera"]),w("head ööd","buonanotte","🌙",["buona notte"]),w("nägemist","arrivederci","🖐️",["ciao"])],
+  s:[s("Tere hommikust!","Buongiorno!",["Buon giorno!"]),s("Head ööd!","Buonanotte!",["Buona notte!"]),s("Tere õhtust!","Buonasera!",["Buona sera!"]),s("Nägemist!","Arrivederci!",["Ciao!"]),s("Tere päevast!","Buon pomeriggio!",["Buongiorno!"]),s("Head ööd, aitäh!","Buonanotte, grazie!",["Buona notte, grazie!"])]},
+ {n:"Come va?",w:[w("kuidas läheb","come va","❓"),w("hästi","bene","👍"),w("halvasti","male","👎"),w("väga","molto","💯"),w("vabandust","scusa","🙇",["scusi","mi scusi"]),w("mitte","non","🚫")],
+  s:[s("Kuidas läheb?","Come va?",["Come stai?"]),s("Hästi, aitäh.","Bene, grazie."),s("Väga hästi!","Molto bene!",["Benissimo!"]),s("Vabandust!","Scusa!",["Scusi!","Mi scusi!"]),s("Mitte väga hästi.","Non molto bene."),s("Tere! Kuidas läheb?","Ciao! Come va?",["Ciao! Come stai?","Salve! Come va?"])]}
+]},
+{t:"Mina ja sina",s:"Io, tu e gli altri",c:2,guide:`
+<h4>Il verbo olema (essere)</h4>
+<table><tr><td>mina / ma</td><td>olen</td></tr><tr><td>sina / sa</td><td>oled</td></tr><tr><td>tema / ta</td><td>on</td></tr><tr><td>meie / me</td><td>oleme</td></tr><tr><td>teie / te</td><td>olete</td></tr><tr><td>nemad / nad</td><td>on</td></tr></table>
+<h4>Forme lunghe e brevi</h4><p>Ogni pronome ha due forme. Quella breve (<b>ma, sa, ta</b>…) è la più comune nel parlato, quella lunga serve per dare enfasi. Nelle risposte scritte le accetto entrambe.</p>
+<h4>tema = lui e lei</h4><p>Nessuna distinzione di genere: <b>ta on õpetaja</b> vale per un uomo e per una donna.</p>
+<h4>Plurale in -d</h4><div class="ex"><b>sõber</b> → sõbra<b>d</b> · <b>õpetaja</b> → õpetaja<b>d</b></div>
+<h4>Domande con kas</h4><p><b>Kas</b> all'inizio trasforma una frase in una domanda sì/no:</p><div class="ex"><b>Kas</b> sa oled eestlane? = Sei estone?</div>`,
+L:[
+ {n:"Pronomi",w:[w("mina","io","🙋"),w("sina","tu","👉"),w("tema","lui","🧍",["lei"]),w("mees","uomo","👨"),w("naine","donna","👩"),w("poiss","ragazzo","👦"),w("tüdruk","ragazza","👧")],
+  s:[s("Mina olen mees.","Sono un uomo.",["Io sono un uomo."]),s("Sina oled naine.","Sei una donna.",["Tu sei una donna."]),s("Ta on poiss.","È un ragazzo.",["Lui è un ragazzo.","Lei è un ragazzo."]),s("Ma olen tüdruk.","Sono una ragazza.",["Io sono una ragazza."]),s("Tema on naine.","È una donna.",["Lei è una donna."])],
+  f:[f("Mina ___ mees.",["olen","oled","on"],"olen","Io sono un uomo."),f("Sina ___ tüdruk.",["on","oled","olen"],"oled","Tu sei una ragazza."),f("Tema ___ poiss.",["oled","olen","on"],"on","Lui è un ragazzo.")]},
+ {n:"Noi e loro",w:[w("meie","noi","👥"),w("teie","voi","🫵"),w("nemad","loro","👪"),w("sõber","amico","🤝",["amica"]),w("õpetaja","insegnante","🧑‍🏫",["maestro","maestra","professore","professoressa"]),w("õpilane","studente","🎒",["alunno","alunna","studentessa"])],
+  s:[s("Meie oleme sõbrad.","Siamo amici.",["Noi siamo amici.","Siamo amiche."]),s("Teie olete õpilased.","Siete studenti.",["Voi siete studenti.","Siete alunni.","Voi siete alunni."]),s("Nemad on õpetajad.","Sono insegnanti.",["Loro sono insegnanti."]),s("Ma olen õpetaja.","Sono un insegnante.",["Sono insegnante.","Sono un'insegnante.","Io sono un insegnante.","Io sono insegnante."]),s("Sa oled mu sõber.","Sei mio amico.",["Sei il mio amico.","Tu sei mio amico.","Sei la mia amica.","Sei mia amica."])],
+  f:[f("Meie ___ sõbrad.",["oleme","olete","on"],"oleme","Noi siamo amici."),f("Teie ___ õpilased.",["oled","olete","oleme"],"olete","Voi siete studenti."),f("Nemad ___ õpetajad.",["on","oleme","olen"],"on","Loro sono insegnanti.")]},
+ {n:"Chi sei?",w:[w("nimi","nome","🏷️"),w("kes","chi","🕵️"),w("mis","che cosa","🤔",["cosa","che"]),w("eestlane","estone","🇪🇪"),w("itaallane","italiano","🇮🇹",["italiana"]),w("Eestis","in Estonia","🗺️")],
+  s:[s("Mis su nimi on?","Come ti chiami?",["Qual è il tuo nome?"]),s("Minu nimi on Marco.","Mi chiamo Marco.",["Il mio nome è Marco."]),s("Kes sa oled?","Chi sei?",["Chi sei tu?"]),s("Kas sa oled eestlane?","Sei estone?",["Tu sei estone?"]),s("Ei, ma olen itaallane.","No, sono italiano.",["No, sono italiana.","No, io sono italiano.","No, io sono italiana."]),s("Ma elan Eestis.","Vivo in Estonia.",["Io vivo in Estonia."])]}
+]},
+{t:"Numbrid",s:"Numeri ed età",c:3,guide:`
+<h4>Da 1 a 10</h4><table><tr><td>1 üks</td><td>6 kuus</td></tr><tr><td>2 kaks</td><td>7 seitse</td></tr><tr><td>3 kolm</td><td>8 kaheksa</td></tr><tr><td>4 neli</td><td>9 üheksa</td></tr><tr><td>5 viis</td><td>10 kümme</td></tr></table>
+<h4>Dopo il 2: partitivo singolare</h4><p>Con i numeri da 2 in su il nome resta <b>singolare</b> ma va al caso partitivo:</p><div class="ex">üks <b>kass</b> · kaks <b>kassi</b> · kolm <b>koera</b></div>
+<h4>Mul on = ho</h4><p>L'estone non ha un verbo «avere». Si dice «presso di me c'è»: <b>Mul on</b> kass = Ho un gatto.</p>
+<h4>Oltre il 10</h4><p>11–19 con <b>-teist</b> (üksteist, kaksteist). Le decine con <b>-kümmend</b> (kakskümmend = 20).</p>`,
+L:[
+ {n:"Da 1 a 5",w:[w("üks","uno","1️⃣"),w("kaks","due","2️⃣"),w("kolm","tre","3️⃣"),w("neli","quattro","4️⃣"),w("viis","cinque","5️⃣"),w("kass","gatto","🐈")],
+  s:[s("Üks, kaks, kolm.","Uno, due, tre."),s("Mul on üks kass.","Ho un gatto."),s("Mul on kaks kassi.","Ho due gatti."),s("Neli või viis?","Quattro o cinque?"),s("Mul on viis kassi.","Ho cinque gatti.")],
+  f:[f("Mul on kaks ___.",["kass","kassi"],"kassi","Ho due gatti."),f("Mul on üks ___.",["kassi","kass"],"kass","Ho un gatto.")]},
+ {n:"Da 6 a 10",w:[w("kuus","sei","6️⃣"),w("seitse","sette","7️⃣"),w("kaheksa","otto","8️⃣"),w("üheksa","nove","9️⃣"),w("kümme","dieci","🔟"),w("koer","cane","🐕")],
+  s:[s("Mul on kolm koera.","Ho tre cani."),s("Mul on üks koer.","Ho un cane."),s("Mul on kümme sõpra.","Ho dieci amici."),s("Kuus, seitse, kaheksa.","Sei, sette, otto."),s("Mul on kaks koera ja üks kass.","Ho due cani e un gatto.")],
+  f:[f("Mul on kolm ___.",["koer","koera"],"koera","Ho tre cani."),f("Mul on kümme ___.",["sõpra","sõber"],"sõpra","Ho dieci amici.")]},
+ {n:"Età e prezzi",w:[w("aasta","anno","📅"),w("vana","vecchio","🧓"),w("kakskümmend","venti","2️⃣0️⃣"),w("kolmkümmend","trenta","3️⃣0️⃣"),w("euro","euro","💶"),w("kui palju","quanto","💰")],
+  s:[s("Kui vana sa oled?","Quanti anni hai?",["Tu quanti anni hai?"]),s("Ma olen kakskümmend aastat vana.","Ho vent'anni.",["Ho venti anni."]),s("Kui palju see maksab?","Quanto costa?",["Quanto costa questo?"]),s("See maksab kümme eurot.","Costa dieci euro.",["Questo costa dieci euro."]),s("Ma olen kolmkümmend aastat vana.","Ho trent'anni.",["Ho trenta anni."])]}
+]},
+{t:"Söök ja jook",s:"Cibo e bevande",c:4,guide:`
+<h4>Il partitivo: «un po' di»</h4><p>Quando mangi o bevi una quantità indefinita, l'oggetto va al <b>partitivo</b>. Le forme vanno imparate con la parola:</p>
+<div class="ex">vesi → <b>vett</b> · kohv → <b>kohvi</b> · tee → <b>teed</b> · leib → <b>leiba</b> · piim → <b>piima</b></div>
+<h4>Negazione con ei</h4><p><b>ei</b> + radice del verbo, uguale per tutte le persone. Dopo la negazione l'oggetto va al partitivo:</p><div class="ex">ma <b>ei joo</b> piima · sa <b>ei joo</b> · ta <b>ei joo</b></div>
+<h4>Verbi utili</h4><table><tr><td>sööma (mangiare)</td><td>ma söön, sa sööd, ta sööb</td></tr><tr><td>jooma (bere)</td><td>ma joon, sa jood, ta joob</td></tr><tr><td>tahtma (volere)</td><td>ma tahan, sa tahad, ta tahab</td></tr></table>
+<h4>Al bar</h4><p>Per ordinare va benissimo il nominativo: <b>Üks kohv, palun.</b></p>`,
+L:[
+ {n:"Bevande",w:[w("vesi","acqua","💧"),w("kohv","caffè","☕",["caffe"]),w("tee","tè","🍵",["te"]),w("piim","latte","🥛"),w("õlu","birra","🍺"),w("mahl","succo","🧃")],
+  s:[s("Ma joon kohvi.","Bevo caffè.",["Bevo il caffè.","Io bevo caffè.","Bevo del caffè."]),s("Ma tahan vett.","Voglio acqua.",["Voglio dell'acqua.","Vorrei acqua.","Vorrei dell'acqua.","Voglio l'acqua."]),s("Kas sa tahad teed?","Vuoi del tè?",["Vuoi tè?","Vuoi il tè?","Vuoi un tè?"]),s("Üks õlu, palun.","Una birra, per favore."),s("Ma ei joo piima.","Non bevo latte.",["Non bevo il latte.","Io non bevo latte."])],
+  f:[f("Ma joon ___.",["kohv","kohvi"],"kohvi","Bevo caffè."),f("Ma tahan ___.",["vesi","vett"],"vett","Voglio acqua."),f("Ma ___ joo piima.",["ei","mitte"],"ei","Non bevo latte.")]},
+ {n:"Cibo",w:[w("leib","pane nero","🍞",["pane"]),w("juust","formaggio","🧀"),w("kala","pesce","🐟"),w("õun","mela","🍎"),w("supp","zuppa","🍲"),w("liha","carne","🥩")],
+  s:[s("Ma söön leiba.","Mangio pane.",["Mangio il pane.","Mangio pane nero.","Io mangio pane."]),s("Ta sööb kala.","Mangia pesce.",["Lui mangia pesce.","Lei mangia pesce.","Mangia il pesce."]),s("Ma armastan juustu.","Amo il formaggio.",["Adoro il formaggio.","Io amo il formaggio."]),s("See supp on hea.","Questa zuppa è buona."),s("Ma ei söö liha.","Non mangio carne.",["Non mangio la carne.","Io non mangio carne."])],
+  f:[f("Ma söön ___.",["leib","leiba"],"leiba","Mangio pane."),f("Ta ___ kala.",["sööb","söön"],"sööb","Lui mangia pesce.")]},
+ {n:"Al caffè",w:[w("kohvik","caffetteria","🪑",["bar","caffè"]),w("arve","conto","🧾"),w("hea","buono","👌",["buona"]),w("ja","e","➕"),w("või","o","↔️",["oppure"]),w("sai","pane bianco","🥖")],
+  s:[s("Arve, palun.","Il conto, per favore."),s("See on väga hea!","È molto buono!",["Questo è molto buono!","È buonissimo!"]),s("Üks tee ja üks õun, palun.","Un tè e una mela, per favore."),s("Kas teil on suppi?","Avete zuppa?",["Avete della zuppa?","Avete la zuppa?"]),s("Kohv või tee?","Caffè o tè?")]}
+]},
+{t:"Perekond",s:"La famiglia",c:5,guide:`
+<h4>Mul on, sul on, tal on</h4><p>Per il possesso si usa l'adessivo (-l) + <b>on</b>:</p>
+<table><tr><td>mul on</td><td>ho</td></tr><tr><td>sul on</td><td>hai</td></tr><tr><td>tal on</td><td>ha</td></tr><tr><td>meil on</td><td>abbiamo</td></tr></table>
+<h4>Al negativo: partitivo</h4><div class="ex">Mul on vend → Mul <b>ei ole venda</b></div>
+<h4>Possessivi invariabili</h4><p><b>mu / minu</b> = mio, mia, miei, mie · <b>su / sinu</b> = tuo, tua… Non cambiano mai.</p>
+<h4>Aggettivi</h4><p>Vanno prima del nome, come in inglese: <b>suur</b> perekond, <b>väike</b> laps.</p>`,
+L:[
+ {n:"Genitori e fratelli",w:[w("ema","madre","👩",["mamma"]),w("isa","padre","👨",["papà","papa"]),w("vend","fratello","👦"),w("õde","sorella","👧"),w("perekond","famiglia","👨‍👩‍👧")],
+  s:[s("See on mu ema.","Questa è mia madre.",["Questa è mia mamma.","Lei è mia madre.","È mia madre."]),s("Mu isa on õpetaja.","Mio padre è insegnante.",["Mio padre è un insegnante.","Mio papà è insegnante."]),s("Mul on vend.","Ho un fratello."),s("Mul on kaks õde.","Ho due sorelle."),s("Meie perekond on suur.","La nostra famiglia è grande.")]},
+ {n:"Figli e nonni",w:[w("poeg","figlio","👶"),w("tütar","figlia","👧"),w("vanaema","nonna","👵"),w("vanaisa","nonno","👴"),w("abikaasa","coniuge","💍",["marito","moglie"])],
+  s:[s("Mul on poeg ja tütar.","Ho un figlio e una figlia."),s("Mu vanaema elab Tartus.","Mia nonna vive a Tartu."),s("Tal on kaks venda.","Ha due fratelli.",["Lui ha due fratelli.","Lei ha due fratelli."]),s("Mul ei ole õde.","Non ho una sorella.",["Non ho sorelle.","Io non ho una sorella."]),s("Mu vanaisa on vana.","Mio nonno è vecchio.",["Mio nonno è anziano."])],
+  f:[f("___ on vend.",["Mina","Mul"],"Mul","Ho un fratello."),f("Mul ei ole ___.",["vend","venda"],"venda","Non ho un fratello."),f("Tal on kaks ___.",["venda","vend"],"venda","Ha due fratelli.")]},
+ {n:"Descrivere",w:[w("suur","grande","🐘"),w("väike","piccolo","🐭",["piccola"]),w("noor","giovane","🌱"),w("ilus","bello","🌸",["bella"]),w("armas","carino","🥰",["carina","dolce"]),w("laps","bambino","🧒",["bambina"])],
+  s:[s("Mu vend on noor.","Mio fratello è giovane."),s("Su õde on väga ilus.","Tua sorella è molto bella."),s("Laps on väike ja armas.","Il bambino è piccolo e carino.",["La bambina è piccola e carina.","Il bambino è piccolo e dolce."]),s("See maja on väike.","Questa casa è piccola."),s("Mu kass on suur.","Il mio gatto è grande.",["Mio gatto è grande."])]}
+]},
+{t:"Linn",s:"In città",c:6,guide:`
+<h4>-s = in, a (stato in luogo)</h4><div class="ex">kool → kooli<b>s</b> (a scuola) · kodu → kodu<b>s</b> (a casa)</div><p>Alcune parole cambiano radice: <b>pood → poes</b> (al negozio).</p>
+<h4>Moto a luogo</h4><p>Per dire <i>dove vai</i> si usa l'illativo. Le forme brevi vanno imparate a memoria:</p><div class="ex">Ma lähen <b>kooli</b> · <b>koju</b> · <b>linna</b></div>
+<h4>Kus? e Kuhu?</h4><p><b>Kus</b> = dove (stato) · <b>Kuhu</b> = verso dove (moto).</p>
+<h4>-ga = con</h4><p>Anche per i mezzi di trasporto: rongi<b>ga</b> (in treno), bussi<b>ga</b> (in autobus).</p>`,
+L:[
+ {n:"Luoghi",w:[w("kool","scuola","🏫"),w("pood","negozio","🏪"),w("kodu","casa","🏡"),w("maja","edificio","🏠",["casa","palazzo"]),w("haigla","ospedale","🏥"),w("raamatukogu","biblioteca","📚")],
+  s:[s("Ma olen kodus.","Sono a casa.",["Io sono a casa."]),s("Ta on koolis.","È a scuola.",["Lui è a scuola.","Lei è a scuola."]),s("Ema on poes.","La mamma è al negozio.",["Mamma è al negozio.","La madre è al negozio.","Mia madre è al negozio."]),s("See maja on suur.","Questo edificio è grande.",["Questa casa è grande."]),s("Ma olen raamatukogus.","Sono in biblioteca.",["Io sono in biblioteca."])],
+  f:[f("Ma olen ___.",["kodu","kodus"],"kodus","Sono a casa."),f("Ema on ___.",["poes","pood"],"poes","La mamma è al negozio.")]},
+ {n:"Dov'è?",w:[w("kus","dove","📍"),w("siin","qui","⬇️",["qua"]),w("seal","lì","↗️",["là","li","la"]),w("tänav","strada","🛣️",["via"]),w("vasakul","a sinistra","⬅️"),w("paremal","a destra","➡️")],
+  s:[s("Kus on pood?","Dov'è il negozio?",["Dove è il negozio?"]),s("Pood on siin.","Il negozio è qui.",["Il negozio è qua."]),s("Kool on vasakul.","La scuola è a sinistra."),s("Raamatukogu on paremal.","La biblioteca è a destra."),s("Vabandust, kus on haigla?","Scusi, dov'è l'ospedale?",["Scusa, dov'è l'ospedale?","Mi scusi, dov'è l'ospedale?","Scusi, dove è l'ospedale?"])]},
+ {n:"In giro",w:[w("buss","autobus","🚌"),w("rong","treno","🚆"),w("auto","macchina","🚗",["auto"]),w("linn","città","🏙️",["citta"]),w("täna","oggi","📆"),w("ma lähen","vado","🚶‍♀️",["io vado"])],
+  s:[s("Ma lähen kooli.","Vado a scuola.",["Io vado a scuola."]),s("Ma lähen koju.","Vado a casa.",["Io vado a casa."]),s("Täna ma lähen linna.","Oggi vado in città.",["Oggi io vado in città."],["Ma lähen täna linna.","Täna lähen ma linna."]),s("Buss on seal.","L'autobus è lì.",["L'autobus è là."]),s("Ma sõidan rongiga.","Viaggio in treno.",["Vado in treno.","Io viaggio in treno."])],
+  f:[f("Ma lähen ___.",["kodus","koju"],"koju","Vado a casa."),f("Ma sõidan ___.",["bussiga","buss"],"bussiga","Viaggio in autobus."),f("___ on pood?",["Kus","Kuhu"],"Kus","Dov'è il negozio?")]}
+]}
+];
+const PROPER=new Set(["Marco","Eestis","Tartus","Tartu","Estonia"]);
+
+/* ============ ICONE + MASCOTTE ============ */
+const I={
+ flame:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 3.5 5.5 5.5 5.5 11a5.5 5.5 0 0 1-11 0c0-2.6 1.3-4.3 2.6-5.6.2 1.8 1 3 2.2 3.4C10.6 8.4 11.2 5 12 2z"/></svg>',
+ gem:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10l4 6-9 12L3 9z"/><path d="M3 9h18M12 21 8.5 9 12 3l3.5 6z" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.4"/></svg>',
+ heart:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-8.5-5.3-8.5-11.2A4.8 4.8 0 0 1 12 6.5a4.8 4.8 0 0 1 8.5 3.3C20.5 15.7 12 21 12 21z"/></svg>',
+ star:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.5 2.9 6 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.6 6.6-.8z"/></svg>',
+ check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg>',
+ lock:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V8a5 5 0 0 1 10 0v2h1a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1zm2 0h6V8a3 3 0 0 0-6 0z"/></svg>',
+ trophy:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h10v2h3v3a4 4 0 0 1-4.2 4A5 5 0 0 1 13 14.9V18h3v3H8v-3h3v-3.1A5 5 0 0 1 8.2 12 4 4 0 0 1 4 8V5h3zm0 4H6v1a2 2 0 0 0 1.3 1.9A6 6 0 0 1 7 8zm10 0v1a6 6 0 0 1-.3 1.9A2 2 0 0 0 18 8V7z"/></svg>',
+ book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>',
+ x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+ spk:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+ slow:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17c0-4 3.2-7 7-7 3 0 5 2 5.5 4h2.2a2.3 2.3 0 1 1 0 4.6H4A1 1 0 0 1 3 17z"/><circle cx="10" cy="11" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',
+ path:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 7v2h18V7zM5 11v7h3v-7zm5.5 0v7h3v-7zM16 11v7h3v-7zM3 20h18v2H3z"/></svg>',
+ words:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3zm3 4v2h8V8zm0 4v2h6v-2z"/><path d="M20 7h1v15H8v-1h12z"/></svg>',
+ me:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4.5"/><path d="M3.5 21a8.5 8.5 0 0 1 17 0z"/></svg>',
+ clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ target:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>'
+};
+function bird(mood){
+ const eye = mood==="happy" ? '<path d="M73 41q7-8 14 0" fill="none" stroke="#111" stroke-width="3.4" stroke-linecap="round"/>'
+   : mood==="sad" ? '<circle cx="80" cy="41" r="8.5" fill="#fff"/><circle cx="80" cy="44" r="4.2" fill="#111"/><path d="M70 31l15 3" stroke="var(--bird)" stroke-width="4" stroke-linecap="round"/>'
+   : '<circle cx="80" cy="40" r="8.5" fill="#fff"/><circle cx="82" cy="41" r="4.4" fill="#111"/><circle cx="83.6" cy="39.4" r="1.5" fill="#fff"/>';
+ return `<svg viewBox="0 0 120 112" role="img" aria-label="Pääsu, la rondine"><path d="M34 70 6 100l20-20-12 28 28-34z" fill="var(--bird)"/><ellipse cx="62" cy="60" rx="38" ry="35" fill="var(--bird)"/><ellipse cx="70" cy="74" rx="25" ry="20" fill="var(--belly)"/><ellipse cx="84" cy="56" rx="11" ry="8.5" fill="#C8553D"/><path d="M36 56q24-10 38 14-26 7-38-14z" fill="var(--bird-2)"/>${eye}<path d="M96 45l13 4-13 5z" fill="#F2B705"/><path d="M58 94v8m-4 0h8M72 94v8m-4 0h8" stroke="#F2B705" stroke-width="3" stroke-linecap="round"/></svg>`;
+}
+
+/* ============ STATO ============ */
+const KEY="eesti-teekond-v1", HEART_MS=30*60*1000, MAXH=5;
+const DEF={forceTts:false,xp:0,streak:0,lastDay:null,hearts:MAXH,heartsTs:0,done:{},daily:{d:null,xp:0},goal:30,sound:true,unlimited:false,best:0,updatedAt:0};
+let S=Object.assign({},DEF);
+try{const r=JSON.parse(localStorage.getItem(KEY)||"null"); if(r) S=Object.assign({},DEF,r);}catch(e){}
+const SEED_DONE={"0-0": 1, "0-1": 1, "0-2": 1, "0-r": 1, "1-0": 1, "1-1": 1, "1-2": 1, "1-r": 1, "2-0": 1, "2-1": 1, "2-2": 1, "2-r": 1, "3-0": 1, "3-1": 1, "3-2": 1, "3-r": 1, "4-0": 1, "4-1": 1, "4-2": 1, "4-r": 1};
+(function(){let ch=false;const d=Object.assign({},S.done);for(const k in SEED_DONE)if(!d[k]){d[k]=1;ch=true}S.done=d;if(S.xp<155){S.xp=155;ch=true}if(!S.forceTts){S.forceTts=true;ch=true}if(ch){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}})();
+let dbRef=null, saveT=null;
+function save(){
+ S.updatedAt=Date.now();
+ try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
+ if(dbRef){clearTimeout(saveT); saveT=setTimeout(()=>{dbRef.set(JSON.parse(JSON.stringify(S))).catch(()=>{});},1200);}
+}
+
+
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const yesterday=()=>{const d=new Date();d.setDate(d.getDate()-1);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+function liveStreak(){return (S.lastDay===today()||S.lastDay===yesterday())?S.streak:0}
+function dailyXp(){return S.daily.d===today()?S.daily.xp:0}
+function syncHearts(){
+ if(S.hearts>=MAXH){S.heartsTs=Date.now();return}
+ const n=Math.floor((Date.now()-S.heartsTs)/HEART_MS);
+ if(n>0){S.hearts=Math.min(MAXH,S.hearts+n);S.heartsTs+=n*HEART_MS;if(S.hearts>=MAXH)S.heartsTs=Date.now()}
+}
+function nextHeartMin(){return Math.max(1,Math.ceil((HEART_MS-(Date.now()-S.heartsTs))/60000))}
+
+/* nodi del percorso */
+const NODES=[];
+UNITS.forEach((u,ui)=>{u.L.forEach((l,li)=>NODES.push({id:ui+"-"+li,ui,li,type:"lesson"}));NODES.push({id:ui+"-r",ui,li:null,type:"review"})});
+function curIndex(){const i=NODES.findIndex(n=>!S.done[n.id]);return i<0?NODES.length:i}
+
+/* ============ UTIL ============ */
+const $=(q,el=document)=>el.querySelector(q);
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pickN=(a,n)=>shuffle(a).slice(0,n);
+const norm=t=>t.toLowerCase().replace(/[’`´]/g,"'").replace(/[.,!?¡¿;:"«»()\-]/g," ").replace(/\s+/g," ").trim();
+const deacc=t=>t.normalize("NFD").replace(/[̀-ͯ]/g,"");
+const ETEQ={ma:"mina",sa:"sina",ta:"tema",me:"meie",te:"teie",nad:"nemad",mu:"minu",su:"sinu"};
+const ITPRO=new Set(["io","tu","lui","lei","noi","voi","loro"]);
+function canon(t,lang){let k=norm(t).split(" ");if(lang==="et")k=k.map(x=>ETEQ[x]||x);else{if(k.length>1&&ITPRO.has(k[0]))k=k.slice(1);k=k.map(x=>x.replace(/^(dov|com|quant)'?(è|e)$/,"$1e è"))}return k.join(" ")}
+function lev(a,b){const m=a.length,n=b.length;if(Math.abs(m-n)>1)return 2;const d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
+function judge(input,answers,lang,typed){
+ const u=canon(input,lang);
+ for(const a of answers) if(canon(a,lang)===u) return {ok:true,kind:"exact"};
+ for(const a of answers) if(deacc(canon(a,lang))===deacc(u)) return {ok:true,kind:"accent",a};
+ if(typed) for(const a of answers){const c=canon(a,lang); if(c.length>=6&&lev(c,u)<=1) return {ok:true,kind:"typo",a}}
+ return {ok:false};
+}
+function toks(t){return t.replace(/[.,!?;:«»"]/g,"").split(/\s+/).filter(Boolean).map((x,i)=>PROPER.has(x)?x:x.toLowerCase())}
+
+/* ============ AUDIO ============ */
+let etVoice=null;
+function loadVoices(){try{const v=speechSynthesis.getVoices();etVoice=v.find(x=>/^et([-_]|$)/i.test(x.lang))||null}catch(e){}}
+if("speechSynthesis" in window){loadVoices();speechSynthesis.onvoiceschanged=()=>{loadVoices();if(!PL)render()}}
+let AUD=null;const PLAYER=new Audio();
+
+function hasVoice(){return !!AUD||!!etVoice||!!S.forceTts}
+let vTries=0;const vTimer=setInterval(()=>{const had=!!etVoice;loadVoices();if(!had&&etVoice&&!PL)render();if(etVoice||++vTries>20)clearInterval(vTimer)},500);
+function say(t,slow){if(AUD&&AUD[t]){try{if("speechSynthesis" in window)speechSynthesis.cancel();PLAYER.pause();PLAYER.src=AUD[t];PLAYER.playbackRate=slow?.7:1;PLAYER.preservesPitch=true;PLAYER.currentTime=0;PLAYER.play().catch(()=>{})}catch(e){}return}
+ if(!hasVoice()||!("speechSynthesis" in window))return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);if(etVoice)u.voice=etVoice;u.lang=etVoice?etVoice.lang:"et-EE";u.rate=slow?.55:.9;speechSynthesis.speak(u)}catch(e){}}
+let AC=null;
+function tone(good){if(!S.sound)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const now=AC.currentTime;const notes=good?[[660,0],[880,.09]]:[[220,0],[180,.12]];notes.forEach(([fq,t])=>{const o=AC.createOscillator(),g=AC.createGain();o.type=good?"triangle":"sawtooth";o.frequency.value=fq;g.gain.setValueAtTime(.0001,now+t);g.gain.exponentialRampToValueAtTime(good?.18:.06,now+t+.02);g.gain.exponentialRampToValueAtTime(.0001,now+t+.18);o.connect(g).connect(AC.destination);o.start(now+t);o.stop(now+t+.2)})}catch(e){}}
+function toast(m){const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200)}
+
+/* ============ GENERATORE ESERCIZI ============ */
+function poolUpTo(ui){const W=[],Sn=[];UNITS.slice(0,ui+1).forEach(u=>u.L.forEach(l=>{W.push(...l.w);Sn.push(...l.s)}));return{W,S:Sn}}
+function mkPic(wd,cands){const others=pickN(cands.filter(x=>x.p&&x.e!==wd.e&&x.i!==wd.i),3);return{t:"pic",w:wd,opts:shuffle([wd,...others])}}
+function mkPick(wd,cands){return{t:"pick",w:wd,opts:shuffle([wd.e,...pickN(cands.filter(x=>x.e!==wd.e).map(x=>x.e),2)])}}
+function mkPickRev(wd,cands){return{t:"pickrev",w:wd,opts:shuffle([wd.i,...pickN(cands.filter(x=>x.i!==wd.i&&!wd.ia.includes(x.i)).map(x=>x.i),2)])}}
+function mkMatch(ws){return{t:"match",pairs:ws.map(x=>[x.e,x.i])}}
+function mkBuild(sn,dir,pool){
+ const toEt=dir!=="e2i";
+ const ans=toEt?toks(sn.e):toks(sn.i);
+ const src=toEt?pool.S.map(x=>toks(x.e)).flat():pool.S.map(x=>toks(x.i)).flat();
+ const low=new Set(ans.map(x=>x.toLowerCase()));
+ const dis=pickN([...new Set(src)].filter(x=>!low.has(x.toLowerCase())),Math.min(4,Math.max(2,6-ans.length+2)));
+ return{t:"build",dir,sn,tiles:shuffle([...ans,...dis])}
+}
+function mkType(sn,dir){return{t:"type",dir,sn}}
+function mkFill(fl){return{t:"fill",fl,opts:shuffle(fl.o)}}
+
+function buildLesson(node){
+ const u=UNITS[node.ui], pool=poolUpTo(node.ui), listen=hasVoice();
+ if(node.type==="lesson"){
+  const L=u.L[node.li], W=L.w, Sn=L.s, cands=W.concat(u.L.flatMap(x=>x.w));
+  const ex=[];
+  const pics=pickN(W.filter(x=>x.p),3);
+  const rest=[];
+  W.filter(x=>!pics.includes(x)).forEach((x,k)=>rest.push(k%2?mkPickRev(x,cands):mkPick(x,cands)));
+  if(W.length>=4) rest.push(mkMatch(pickN(W,5)));
+  const plan=["e2i","i2e",listen?"listen":"i2e","type-e2i","i2e","type-i2e"];
+  Sn.forEach((sn,k)=>{const p=plan[k%plan.length];rest.push(p.startsWith("type")?mkType(sn,p.slice(5)):mkBuild(sn,p,pool))});
+  (L.f||[]).forEach(fl=>rest.push(mkFill(fl)));
+  pics.forEach(x=>ex.push(mkPic(x,cands)));
+  return ex.concat(shuffle(rest)).slice(0,14);
+ }
+ // ripasso di unità
+ const W=u.L.flatMap(l=>l.w), Sn=u.L.flatMap(l=>l.s), F=u.L.flatMap(l=>l.f||[]);
+ const ex=[mkMatch(pickN(W,5))];
+ pickN(W.filter(x=>x.p),2).forEach(x=>ex.push(mkPic(x,W)));
+ pickN(W,2).forEach((x,k)=>ex.push(k?mkPickRev(x,W):mkPick(x,W)));
+ const plan=["i2e","type-i2e","e2i",listen?"listen":"i2e","type-e2i","i2e","type-i2e"];
+ pickN(Sn,7).forEach((sn,k)=>{const p=plan[k];ex.push(p.startsWith("type")?mkType(sn,p.slice(5)):mkBuild(sn,p,pool))});
+ pickN(F,2).forEach(fl=>ex.push(mkFill(fl)));
+ return [ex[0],...shuffle(ex.slice(1))];
+}
+function buildPractice(){
+ const doneU=new Set(NODES.filter(n=>S.done[n.id]).map(n=>n.ui));
+ const ui=doneU.size?Math.max(...doneU):0;
+ const Ls=[];NODES.filter(n=>n.type==="lesson"&&S.done[n.id]).forEach(n=>Ls.push(UNITS[n.ui].L[n.li]));
+ if(!Ls.length) Ls.push(UNITS[0].L[0]);
+ const W=Ls.flatMap(l=>l.w), Sn=Ls.flatMap(l=>l.s), pool=poolUpTo(ui);
+ const ex=[mkMatch(pickN(W,5))];
+ pickN(W,2).forEach(x=>ex.push(mkPick(x,W)));
+ pickN(Sn,5).forEach((sn,k)=>ex.push(k%2?mkType(sn,"i2e"):mkBuild(sn,k%3?"e2i":"i2e",pool)));
+ return ex;
+}
+
+/* ============ RENDER PRINCIPALE ============ */
+let TAB="path", PL=null;
+function topbar(){
+ syncHearts();
+ const st=liveStreak();
+ return `<header class="top"><div class="wrap">
+  <div class="flag" title="Estone" aria-label="Corso: estone"><i></i><i></i><i></i></div>
+  <div class="stat s-flame ${st?"":"off"}" title="Giorni di fila">${I.flame}<span>${st}</span></div>
+  <div class="stat s-gem" title="XP totali">${I.gem}<span>${S.xp}</span></div>
+  <div class="stat s-heart" title="Cuori">${I.heart}<span>${S.unlimited?"∞":S.hearts}</span></div>
+ </div></header>`;
+}
+function navbar(){
+ const b=(id,ic,l)=>`<button data-tab="${id}" ${TAB===id?'aria-current="page"':""}>${I[ic]}<span>${l}</span></button>`;
+ return `<nav class="nav"><div class="in">${b("path","path","Percorso")}${b("words","words","Parole")}${b("me","me","Profilo")}</div></nav>`;
+}
+const OFF=[0,40,60,40,0,-40,-60,-40];
+function renderPath(){
+ const cur=curIndex(); let k=0;
+ let h="";
+ UNITS.forEach((u,ui)=>{
+  const c=`var(--u${u.c})`, cd=`var(--u${u.c}-d)`;
+  h+=`<section class="unit" style="--c:${c};--cd:${cd}"><div class="ubar" style="background:${c};--ud:${cd}"><div><small>Unità ${ui+1}</small><h2>${esc(u.t)}</h2><p>${esc(u.s)}</p></div><button class="gbtn" data-guide="${ui}">${I.book}Guida</button></div><div class="nodes">`;
+  const ns=NODES.filter(n=>n.ui===ui);
+  ns.forEach((n,j)=>{
+   const gi=NODES.indexOf(n), done=!!S.done[n.id], isCur=gi===cur, locked=gi>cur;
+   const ic=done?I.check:locked?(n.type==="review"?I.trophy:I.lock):(n.type==="review"?I.trophy:I.star);
+   const label=n.type==="review"?"Ripasso unità":u.L[n.li].n;
+   h+=`<div class="nwrap" style="transform:translateX(${OFF[(k++)%8]}px)">${isCur?`<div class="start-tag">${done?"RIPETI":"INIZIA"}</div>`:""}<button class="node ${done?"done":""} ${locked?"locked":""} ${isCur?"cur":""}" data-node="${n.id}" aria-label="${esc(label)}${done?", completata":locked?", bloccata":""}">${ic}</button></div>`;
+  });
+  h+=`<div class="pmascot ${ui%2?"l":"r"}">${bird(ui%3===2?"happy":"")}</div></div></section>`;
+ });
+ h+=`<p class="endnote">${cur>=NODES.length?"Hai completato tutto il percorso. Väga tubli!":"Altre unità arriveranno presto."}</p>`;
+ return h;
+}
+function learnedWords(){const out=[];NODES.forEach(n=>{if(n.type==="lesson"&&S.done[n.id]){const L=UNITS[n.ui].L[n.li];out.push({u:n.ui,l:L.n,w:L.w})}});return out}
+function renderWords(){
+ const g=learnedWords(); const tot=g.reduce((a,x)=>a+x.w.length,0);
+ let h=`<div class="page"><h1>Le tue parole</h1><p class="sub">${tot?`${tot} parole imparate`:"Completa una lezione per vedere qui le parole"}</p>`;
+ if(!tot) h+=`<div class="empty"><div style="width:120px;margin:0 auto 10px">${bird()}</div>Inizia dalla prima lezione: «Tere!»</div>`;
+ g.forEach(x=>{h+=`<div class="sect"><h2>${esc(x.l)} <span class="hint" style="font-size:14px">· Unità ${x.u+1}</span></h2><div class="card wlist">${x.w.map(wd=>`<div class="w"><span class="em">${wd.p||"·"}</span><div class="tx"><div class="et">${esc(wd.e)}</div><div class="it">${esc(wd.i)}</div></div>${hasVoice()?`<button class="spk" data-say="${esc(wd.e)}" aria-label="Ascolta">${I.spk}</button>`:""}</div>`).join("")}</div></div>`});
+ return h+"</div>";
+}
+function renderMe(){
+ syncHearts();
+ const nDone=NODES.filter(n=>S.done[n.id]).length, nWords=learnedWords().reduce((a,x)=>a+x.w.length,0), dx=dailyXp();
+ const t=(ic,col,v,l)=>`<div class="tile"><span style="color:${col}">${I[ic]}</span><div><b>${v}</b><span>${l}</span></div></div>`;
+ return `<div class="page"><h1>Profilo</h1><p class="sub">Eesti keel · livello ${Math.floor(S.xp/100)+1}</p>
+ <div class="grid2">${t("flame","var(--flame)",liveStreak(),"giorni di fila")}${t("gem","var(--blue)",S.xp,"XP totali")}${t("check","var(--ok)",nDone+"/"+NODES.length,"lezioni")}${t("words","var(--u3)",nWords,"parole")}</div>
+ <div class="sect"><h2>Obiettivo di oggi</h2><div class="card" style="padding:14px"><div style="display:flex;justify-content:space-between;font-weight:800"><span>${dx} / ${S.goal} XP</span><span class="hint">${dx>=S.goal?"Raggiunto":"Ancora "+(S.goal-dx)+" XP"}</span></div><div class="goalbar"><i style="width:${Math.min(100,dx/S.goal*100)}%"></i></div></div></div>
+ <div class="sect"><h2>Allenamento</h2><button class="btn ghost" data-practice>Esercitati${S.unlimited||S.hearts>=MAXH?"":" · +1 cuore"}</button></div>
+ <div class="sect"><h2>Impostazioni</h2><div class="card">
+  <div class="row"><div class="lbl">Obiettivo giornaliero</div><div class="seg">${[10,20,30,50].map(v=>`<button data-goal="${v}" aria-pressed="${S.goal===v}">${v}</button>`).join("")}</div></div>
+  <div class="row"><label class="lbl" for="sw-sound">Effetti sonori</label><input type="checkbox" class="sw" id="sw-sound" ${S.sound?"checked":""}></div>
+  <div class="row"><label class="lbl" for="sw-unl">Cuori illimitati<small>Gli errori non tolgono cuori</small></label><input type="checkbox" class="sw" id="sw-unl" ${S.unlimited?"checked":""}></div>
+  <div class="row"><div class="lbl">Pronuncia estone<small>${AUD?"Audio integrato nell'app: funziona ovunque, anche dentro Claude":etVoice?"Voce «"+esc(etVoice.name)+"» trovata":S.forceTts?"Uso la voce di sistema per l'estone":"Il browser non elenca una voce estone"}</small></div>${hasVoice()?`<button class="spk" data-say="Tere! Kuidas läheb?" aria-label="Prova la voce">${I.spk}</button>`:""}</div>
+  ${AUD||etVoice?"":`<div class="row"><label class="lbl" for="sw-tts">Usa comunque la voce estone<small>Prova ad attivarla se l'hai installata ma non viene trovata, poi tocca l'altoparlante qui sopra</small></label><input type="checkbox" class="sw" id="sw-tts" ${S.forceTts?"checked":""}></div>`}
+  <div class="row"><div class="lbl">Cuori<small>${S.unlimited?"Illimitati":S.hearts>=MAXH?"Pieni":"Il prossimo tra "+nextHeartMin()+" min"}</small></div><span class="stat s-heart">${I.heart}${S.unlimited?"∞":S.hearts}</span></div>
+ </div></div>
+ <div class="sect"><h2>Trasferisci progressi</h2><div class="card" style="padding:14px;display:flex;flex-direction:column;gap:12px"><p class="hint" style="margin:0">Copia il codice su un dispositivo e incollalo nell'altro per portarti dietro XP, serie e lezioni.</p><button class="btn ghost" data-export>Copia il mio codice</button><textarea id="imp" placeholder="Incolla qui il codice" style="min-height:80px;font-size:14px"></textarea><button class="btn" data-import>Importa codice</button></div></div>
+ <div class="sect"><button class="btn ghost danger" data-reset style="color:var(--bad)">Azzera i progressi</button></div>
+ </div>`;
+}
+function render(){
+ const body=TAB==="path"?`<div class="wrap">${renderPath()}</div>`:TAB==="words"?`<div class="wrap">${renderWords()}</div>`:`<div class="wrap">${renderMe()}</div>`;
+ $("#app").innerHTML=topbar()+`<main>${body}</main>`+navbar();
+}
+
+/* ============ FOGLI ============ */
+function sheet(html){$("#layer").innerHTML=`<div class="scrim" data-close><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`}
+function closeSheet(){$("#layer").innerHTML=""}
+function nodeSheet(id){
+ const n=NODES.find(x=>x.id===id), gi=NODES.indexOf(n), cur=curIndex(), u=UNITS[n.ui];
+ if(gi>cur){toast("Completa prima le lezioni precedenti");return}
+ const done=!!S.done[n.id], c=`var(--u${u.c})`, cd=`var(--u${u.c}-d)`;
+ const title=n.type==="review"?"Ripasso dell'unità":u.L[n.li].n;
+ const sub=n.type==="review"?`Unità ${n.ui+1} · tutte le parole e le frasi`:`Unità ${n.ui+1} · lezione ${n.li+1} di ${u.L.length}`;
+ const words=n.type==="review"?u.L.flatMap(l=>l.w).slice(0,10):u.L[n.li].w;
+ const xp=n.type==="review"?20:10;
+ const noHearts=!S.unlimited&&S.hearts<=0;
+ sheet(`<div class="eyebrow">${sub}</div><h3>${esc(title)}</h3><div class="chips">${words.map(x=>`<span class="chip">${esc(x.e)}</span>`).join("")}</div>
+ ${noHearts?`<p class="hint">Hai finito i cuori. Il prossimo arriva tra ${nextHeartMin()} min, oppure guadagnane uno con un allenamento.</p><button class="btn ok" data-practice>Esercitati · +1 cuore</button>`
+ :`<button class="btn" style="--b:${c};--bd:${cd}" data-start="${id}">${done?"Ripeti":"Inizia"} · +${xp} XP</button>`}`);
+}
+function guideSheet(ui){const u=UNITS[ui];sheet(`<div class="eyebrow">Guida · Unità ${ui+1}</div><h3>${esc(u.t)}</h3><div class="guide">${u.guide}</div><div style="margin-top:18px"><button class="btn ghost" data-close-btn>Chiudi</button></div>`)}
+
+/* ============ PLAYER LEZIONE ============ */
+function start(kind,node){
+ closeSheet(); syncHearts();
+ const ex=kind==="practice"?buildPractice():buildLesson(node);
+ PL={kind,node,queue:ex.slice(),total:ex.length,doneN:0,mist:0,t0:Date.now(),cur:null,sel:null,ans:[],state:"ask",retry:false};
+ document.body.style.overflow="hidden";
+ nextEx();
+}
+function quit(){PL=null;document.body.style.overflow="";$("#layer").innerHTML="";render()}
+function nextEx(){
+ if(!PL.queue.length) return finish();
+ if(!S.unlimited&&PL.kind!=="practice"&&S.hearts<=0) return outOfHearts();
+ PL.cur=PL.queue.shift(); PL.sel=null; PL.ans=[]; PL.state="ask"; PL.matched=0; PL.mSel=null;
+ draw();
+ const c=PL.cur;
+ if(c.t==="build"&&c.dir!=="i2e") setTimeout(()=>say(c.sn.e),250);
+ if(c.t==="type"&&c.dir==="e2i") setTimeout(()=>say(c.sn.e),250);
+}
+function head(){return `<div class="phead"><button class="xbtn" data-quit aria-label="Esci dalla lezione">${I.x}</button><div class="pbar" role="progressbar" aria-valuemin="0" aria-valuemax="${PL.total}" aria-valuenow="${PL.doneN}"><i style="width:${PL.doneN/PL.total*100}%"></i></div>${PL.kind==="practice"||S.unlimited?"":`<span class="stat s-heart">${I.heart}${S.hearts}</span>`}</div>`}
+function bubble(text,et){return `<div class="speech"><div class="m">${bird()}</div><div class="bubble">${et&&hasVoice()?`<button class="spk" data-say="${esc(text)}" aria-label="Ascolta">${I.spk}</button>`:""}<span class="t">${esc(text)}</span></div></div>`}
+function exBody(){
+ const c=PL.cur; const retry=PL.retry?`<div class="newtag" style="color:var(--bad)">Errore precedente</div>`:"";
+ switch(c.t){
+ case"pic":return `${retry}<h2>Quale di questi significa «${esc(c.w.i)}»?</h2><div class="pics">${c.opts.map((o,k)=>`<button class="pic ${PL.sel===k?"sel":""}" data-sel="${k}"><span class="em">${o.p}</span>${esc(o.e)}</button>`).join("")}</div>`;
+ case"pick":return `${retry}<h2>Come si dice «${esc(c.w.i)}»?</h2><div class="opts">${c.opts.map((o,k)=>`<button class="opt ${PL.sel===k?"sel":""}" data-sel="${k}"><span class="k">${k+1}</span>${esc(o)}</button>`).join("")}</div>`;
+ case"pickrev":return `${retry}<h2>Che cosa significa?</h2>${bubble(c.w.e,true)}<div class="opts">${c.opts.map((o,k)=>`<button class="opt ${PL.sel===k?"sel":""}" data-sel="${k}"><span class="k">${k+1}</span>${esc(o)}</button>`).join("")}</div>`;
+ case"match":{
+  if(!c.L){c.L=shuffle(c.pairs.map((p,k)=>({k,t:p[0]})));c.R=shuffle(c.pairs.map((p,k)=>({k,t:p[1]})));c.gone=new Set()}
+  const col=(arr,side)=>arr.map(x=>`<button class="mt ${c.gone.has(x.k)?"gone":""} ${PL.mSel&&PL.mSel.side===side&&PL.mSel.k===x.k?"sel":""}" data-m="${side}:${x.k}">${esc(x.t)}</button>`).join("");
+  return `<h2>Abbina le coppie</h2><div class="match"><div class="col">${col(c.L,"L")}</div><div class="col">${col(c.R,"R")}</div></div>`}
+ case"build":{
+  const title=c.dir==="listen"?"Tocca ciò che senti":"Traduci questa frase";
+  const prompt=c.dir==="listen"?`<div class="listen"><button class="bigspk" data-say="${esc(c.sn.e)}" aria-label="Ascolta">${I.spk}</button><button class="bigspk slow" data-say-slow="${esc(c.sn.e)}" aria-label="Ascolta lentamente">${I.slow}</button></div>`
+   : c.dir==="e2i"?bubble(c.sn.e,true):bubble(c.sn.i,false);
+  const used=new Set(PL.ans);
+  return `${retry}<h2>${title}</h2>${prompt}<div class="ansline">${PL.ans.map((ti,k)=>`<button class="wt" data-out="${k}">${esc(c.tiles[ti])}</button>`).join("")}</div><div class="bank">${c.tiles.map((t,k)=>`<button class="wt ${used.has(k)?"ghost":""}" data-in="${k}" ${used.has(k)?'tabindex="-1" aria-hidden="true"':""}>${esc(t)}</button>`).join("")}</div>`}
+ case"type":{
+  const toEt=c.dir==="i2e";
+  return `${retry}<h2>${toEt?"Scrivi in estone":"Scrivi in italiano"}</h2>${toEt?bubble(c.sn.i,false):bubble(c.sn.e,true)}<textarea id="typed" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${toEt?"Scrivi in estone":"Scrivi in italiano"}"></textarea>${toEt?`<div class="keys">${["õ","ä","ö","ü"].map(k=>`<button data-key="${k}">${k}</button>`).join("")}</div>`:""}`}
+ case"fill":{
+  const q=esc(c.fl.q).replace("___",`<span class="blank">${PL.sel!=null?esc(c.opts[PL.sel]):"&nbsp;"}</span>`);
+  return `${retry}<h2>Completa la frase</h2><div class="fill">${q}</div><p class="hint">${esc(c.fl.i)}</p><div class="opts">${c.opts.map((o,k)=>`<button class="opt ${PL.sel===k?"sel":""}" data-sel="${k}"><span class="k">${k+1}</span>${esc(o)}</button>`).join("")}</div>`}
+ }
+}
+function canCheck(){const c=PL.cur;if(c.t==="build")return PL.ans.length>0;if(c.t==="type"){const t=$("#typed");return t&&t.value.trim().length>0}return PL.sel!=null}
+function foot(){
+ if(PL.state==="ask"){
+  if(PL.cur.t==="match") return `<div class="pfoot"><button class="btn ghost" data-skip>Salta</button></div>`;
+  return `<div class="pfoot"><button class="btn ghost skip" data-skip>Salta</button><button class="btn ok" data-check ${canCheck()?"":"disabled"}>Verifica</button></div>`;
+ }
+ const r=PL.res;
+ const good=r.ok;
+ const praise=["Ottimo!","Esatto!","Bravo!","Perfetto!","Väga hea!","Tubli!"][Math.floor(Math.random()*6)];
+ let title=good?(r.kind==="exact"?praise:"Quasi perfetto"):"Soluzione corretta:";
+ let tx="";
+ if(good&&r.kind==="accent") tx=`Attento agli accenti: <b>${esc(r.a)}</b>`;
+ else if(good&&r.kind==="typo") tx=`Piccolo errore di battitura: <b>${esc(r.a)}</b>`;
+ else if(good&&r.show) tx=`<small>Significa:</small>${esc(r.show)}`;
+ else if(!good) tx=`${esc(r.right)}${r.mean?`<small>${esc(r.mean)}</small>`:""}`;
+ return `<div class="pfoot fb ${good?"good":"wrong"}"><div class="fbin"><div class="fbt"><span class="ic" style="color:var(${good?"--ok":"--bad"})">${good?I.check:I.x}</span><div><h3>${title}</h3>${tx?`<div class="fbtx">${tx}</div>`:""}</div></div><button class="btn ${good?"ok":"bad"}" data-next>Continua</button></div></div>`;
+}
+function draw(){
+ $("#layer").innerHTML=`<div class="player" role="dialog" aria-modal="true" aria-label="Lezione">${head()}<div class="pbody">${exBody()}</div>${foot()}</div>`;
+ const t=$("#typed"); if(t){t.focus();t.addEventListener("input",()=>{const b=$("[data-check]");if(b)b.disabled=!canCheck()})}
+}
+function refreshBody(){$(".pbody").innerHTML=exBody();const ft=$(".pfoot");ft.outerHTML=foot()}
+function check(){
+ const c=PL.cur; let r;
+ if(c.t==="pic"){const o=c.opts[PL.sel];r={ok:o.e===c.w.e,kind:"exact",right:`${c.w.e} = ${c.w.i}`};say(c.w.e)}
+ else if(c.t==="pick"){r={ok:c.opts[PL.sel]===c.w.e,kind:"exact",right:c.w.e,mean:c.w.i};say(c.w.e)}
+ else if(c.t==="pickrev"){const v=c.opts[PL.sel];r={ok:v===c.w.i||c.w.ia.includes(v),kind:"exact",right:c.w.i}}
+ else if(c.t==="fill"){r={ok:c.opts[PL.sel]===c.fl.a,kind:"exact",right:c.fl.q.replace("___",c.fl.a),mean:c.fl.i};say(c.fl.q.replace("___",c.fl.a))}
+ else if(c.t==="build"){
+  const user=PL.ans.map(k=>c.tiles[k]).join(" ");
+  const toEt=c.dir!=="e2i";
+  const answers=toEt?[c.sn.e,...c.sn.ea]:[c.sn.i,...c.sn.ia];
+  r=judge(user,answers,toEt?"et":"it",false);
+  if(r.ok) r.kind="exact";
+  r.right=toEt?c.sn.e:c.sn.i; r.mean=toEt?c.sn.i:null;
+  if(r.ok&&c.dir==="listen") r.show=c.sn.i;
+  if(toEt) say(c.sn.e);
+ }
+ else if(c.t==="type"){
+  const v=$("#typed").value, toEt=c.dir==="i2e";
+  const answers=toEt?[c.sn.e,...c.sn.ea]:[c.sn.i,...c.sn.ia];
+  r=judge(v,answers,toEt?"et":"it",true);
+  r.right=answers[0]; r.mean=toEt?null:null;
+  if(toEt) say(c.sn.e);
+ }
+ PL.res=r; PL.state="fb"; tone(r.ok);
+ if(r.ok){PL.doneN++}
+ else{
+  PL.mist++; PL.queue.push(c); c._retry=true;
+  if(!S.unlimited&&PL.kind!=="practice"){S.hearts=Math.max(0,S.hearts-1);if(S.hearts===MAXH-1)S.heartsTs=Date.now();save()}
+ }
+ draw();
+ const m=$(".speech .m"); if(m&&r.ok) m.classList.add("hop");
+}
+function matchTap(side,k){
+ const c=PL.cur;
+ if(!PL.mSel||PL.mSel.side===side){PL.mSel={side,k};if(side==="L")say(c.pairs[k][0]);refreshBody();return}
+ const a=PL.mSel; PL.mSel=null;
+ if(a.k===k){c.gone.add(k);tone(true);if(side==="L")say(c.pairs[k][0]);refreshBody();
+  if(c.gone.size===c.pairs.length){PL.doneN++;PL.res={ok:true,kind:"exact"};PL.state="fb";setTimeout(draw,250)}}
+ else{tone(false);refreshBody();[`[data-m="${a.side}:${a.k}"]`,`[data-m="${side}:${k}"]`].forEach(q=>{const el=$(q);if(el)el.classList.add("err")})}
+}
+function cont(){PL.retry=PL.queue.length&&PL.queue[0]._retry;nextEx()}
+function outOfHearts(){
+ $("#layer").innerHTML=`<div class="player"><div class="end"><div class="m">${bird("sad")}</div><h2 style="color:var(--heart)">Cuori finiti</h2><p>Il prossimo cuore arriva tra ${nextHeartMin()} minuti. Puoi guadagnarne uno subito con un allenamento sulle lezioni già fatte.</p><div style="width:100%;max-width:420px;display:flex;flex-direction:column;gap:12px"><button class="btn ok" data-practice>Esercitati · +1 cuore</button><button class="btn ghost" data-quit-now>Torna al percorso</button></div></div></div>`;
+}
+function finish(){
+ const n=PL.node, perfect=PL.mist===0;
+ let xp=PL.kind==="practice"?5:(n.type==="review"?20:10); if(perfect&&PL.kind!=="practice") xp+=5;
+ const before=dailyXp();
+ S.xp+=xp; if(S.daily.d!==today()) S.daily={d:today(),xp:0}; S.daily.xp+=xp;
+ if(S.lastDay!==today()){S.streak=S.lastDay===yesterday()?S.streak+1:1;S.lastDay=today()}
+ S.best=Math.max(S.best||0,S.streak);
+ if(PL.kind!=="practice") S.done[n.id]=(S.done[n.id]||0)+1;
+ else if(S.hearts<MAXH){S.hearts++;if(S.hearts>=MAXH)S.heartsTs=Date.now()}
+ save();
+ const acc=Math.round(PL.total/(PL.total+PL.mist)*100), sec=Math.round((Date.now()-PL.t0)/1000);
+ const time=Math.floor(sec/60)+":"+String(sec%60).padStart(2,"0");
+ const goalHit=before<S.goal&&S.daily.xp>=S.goal;
+ const title=PL.kind==="practice"?"Allenamento fatto!":n.type==="review"?"Unità completata!":"Lezione completata!";
+ $("#layer").innerHTML=`<div class="player"><div class="end"><div class="m hop">${bird("happy")}</div><h2>${title}</h2>
+ <div class="grid3"><div class="etile" style="--c:var(--gold)"><small>XP</small><b>${I.gem.replace("<svg",'<svg width="20" height="20"')}+${xp}</b></div><div class="etile" style="--c:var(--ok)"><small>Precisione</small><b>${acc}%</b></div><div class="etile" style="--c:var(--blue)"><small>Tempo</small><b>${time}</b></div></div>
+ <p>${perfect&&PL.kind!=="practice"?"Nessun errore: +5 XP bonus. ":""}${goalHit?"Obiettivo di oggi raggiunto! ":""}${PL.kind==="practice"&&!S.unlimited?"Hai guadagnato un cuore. ":""}Serie: ${S.streak} ${S.streak===1?"giorno":"giorni"}.</p>
+ <div style="width:100%;max-width:420px"><button class="btn" data-quit-now>Continua</button></div></div></div>`;
+}
+
+/* ============ TRASFERIMENTO ============ */
+let PENDING=null;
+function exportCode(){const o=Object.assign({},S);delete o.updatedAt;return "ET1:"+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
+function parseCode(v){try{const m=v.trim().replace(/\s+/g,"");if(!m.startsWith("ET1:"))return null;const o=JSON.parse(decodeURIComponent(escape(atob(m.slice(4)))));if(typeof o!=="object"||typeof o.xp!=="number"||typeof o.done!=="object")return null;return o}catch(e){return null}}
+function showCode(c){const t=$("#imp");if(t){t.value=c;t.focus();t.select();toast("Seleziona il testo e copialo")}}
+/* ============ EVENTI ============ */
+document.addEventListener("click",e=>{
+ if(!etVoice)loadVoices();
+ const t=e.target.closest("button,[data-close]"); if(!t) return;
+ const d=t.dataset;
+ if(d.tab){TAB=d.tab;render();window.scrollTo(0,0);return}
+ if(d.node){nodeSheet(d.node);return}
+ if(d.guide!=null){guideSheet(+d.guide);return}
+ if(d.closeBtn!=null){closeSheet();return}
+ if(d.close!=null&&e.target===t){closeSheet();return}
+ if(d.start){start("lesson",NODES.find(n=>n.id===d.start));return}
+ if(d.practice!=null){start("practice",null);return}
+ if(d.say){say(d.say);return}
+ if(d.saySlow){say(d.saySlow,true);return}
+ if(d.goal){S.goal=+d.goal;save();render();return}
+ if(d.export!=null){const code=exportCode();const done=()=>toast("Codice copiato");try{navigator.clipboard.writeText(code).then(done,()=>showCode(code))}catch(err){showCode(code)}return}
+ if(d.import!=null){const v=($("#imp")||{}).value||"";const r=parseCode(v);if(!r){toast("Codice non valido: incollalo per intero");return}PENDING=r;const n=Object.keys(r.done||{}).length;sheet(`<h3>Importare questi progressi?</h3><p class="hint">${r.xp||0} XP · ${n} lezioni completate · serie ${r.streak||0}. Sostituiranno quelli attuali su questo dispositivo.</p><div style="display:flex;flex-direction:column;gap:12px;margin-top:16px"><button class="btn ok" data-import-ok>Importa</button><button class="btn ghost" data-close-btn>Annulla</button></div>`);return}
+ if(d.importOk!=null){if(PENDING){S=Object.assign({},DEF,PENDING,{sound:S.sound,unlimited:S.unlimited,forceTts:S.forceTts||PENDING.forceTts});PENDING=null;save();closeSheet();render();toast("Progressi importati")}return}
+ if(d.reset!=null){sheet(`<h3>Azzerare i progressi?</h3><p class="hint">XP, serie e lezioni completate verranno cancellati. Non si può annullare.</p><div style="display:flex;flex-direction:column;gap:12px;margin-top:16px"><button class="btn bad" data-reset-ok>Sì, azzera tutto</button><button class="btn ghost" data-close-btn>Annulla</button></div>`);return}
+ if(d.resetOk!=null){S=Object.assign({},DEF,{goal:S.goal,sound:S.sound,unlimited:S.unlimited});save();closeSheet();TAB="path";render();toast("Progressi azzerati");return}
+ if(!PL) return;
+ if(d.quit!=null){$("#layer").querySelector(".pfoot").outerHTML=`<div class="pfoot"><div class="fbin"><div class="fbt"><span class="ic">${bird("sad").replace("<svg",'<svg width="36"')}</span><div><h3>Vuoi davvero uscire?</h3><div class="fbtx" style="color:var(--muted)">Perderai i progressi di questa lezione.</div></div></div><div style="display:flex;gap:12px"><button class="btn ghost" data-stay>Resta</button><button class="btn bad" data-quit-now>Esci</button></div></div></div>`;return}
+ if(d.stay!=null){draw();return}
+ if(d.quitNow!=null){quit();return}
+ if(PL.state==="ask"){
+  if(d.sel!=null){PL.sel=+d.sel;const c=PL.cur;if(c.t==="pic")say(c.opts[PL.sel].e);if(c.t==="pick")say(c.opts[PL.sel]);refreshBody();return}
+  if(d.in!=null){PL.ans.push(+d.in);if(PL.cur.dir!=="e2i")say(PL.cur.tiles[+d.in]);refreshBody();return}
+  if(d.out!=null){PL.ans.splice(+d.out,1);refreshBody();return}
+  if(d.m){const [sd,k]=d.m.split(":");matchTap(sd,+k);return}
+  if(d.key){const ta=$("#typed");const p=ta.selectionStart??ta.value.length;ta.value=ta.value.slice(0,p)+d.key+ta.value.slice(ta.selectionEnd??p);ta.focus();ta.selectionStart=ta.selectionEnd=p+1;$("[data-check]").disabled=!canCheck();return}
+  if(d.check!=null){if(canCheck())check();return}
+  if(d.skip!=null){const c=PL.cur;PL.res={ok:false,right:c.t==="build"||c.t==="type"?(c.dir==="e2i"?c.sn.i:c.sn.e):c.t==="fill"?c.fl.q.replace("___",c.fl.a):c.t==="match"?"Riproveremo più avanti":c.w?c.w.e+" = "+c.w.i:""};PL.state="fb";PL.queue.push(c);c._retry=true;draw();return}
+ }
+ if(d.next!=null){cont();return}
+});
+document.addEventListener("change",e=>{
+ const id=e.target.id, v=e.target.checked;
+ if(id==="sw-sound"){S.sound=v;save();}
+ else if(id==="sw-unl"){S.unlimited=v;if(!v)syncHearts();save();render();}
+ else if(id==="sw-tts"){S.forceTts=v;save();render();if(v)say("Tere! Kuidas läheb?");}
+});
+document.addEventListener("keydown",e=>{
+ if(!PL) {if(e.key==="Escape")closeSheet();return}
+ if(e.key==="Enter"&&!e.shiftKey){
+  if(PL.state==="fb"&&$("[data-next]")){e.preventDefault();cont();return}
+  if(PL.state==="ask"&&canCheck()&&PL.cur.t!=="match"){e.preventDefault();check();return}
+ }
+ if(PL.state==="ask"&&/^[1-4]$/.test(e.key)&&["pick","pickrev","fill","pic"].includes(PL.cur.t)&&document.activeElement.tagName!=="TEXTAREA"){const k=+e.key-1;if(k<PL.cur.opts.length){PL.sel=k;refreshBody()}}
+});
+setInterval(()=>{if(!PL&&!$("#layer").innerHTML){const h=S.hearts;syncHearts();if(S.hearts!==h){save();render()}}},60000);
+render();
+</script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{})})}</script></body></html>
