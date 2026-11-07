@@ -1,0 +1,731 @@
+# lemma	Italian — base lexicon for tap-hints (inflected forms are found through their lemma)
+# pronomi e parole funzionali
+mina	io
+ma	io
+sina	tu
+sa	tu
+tema	lui, lei
+ta	lui, lei
+meie	noi
+me	noi
+teie	voi, Lei
+te	voi, Lei
+nemad	loro
+nad	loro
+see	questo
+too	quello
+need	questi
+ise	stesso
+oma	proprio, suo
+keegi	qualcuno
+miski	qualcosa
+kõik	tutti, tutto
+iga	ogni
+mõni	qualche
+teine	altro, secondo
+kes	chi
+mis	che cosa
+mida	che cosa
+kus	dove
+kuhu	dove (verso)
+kust	da dove
+millal	quando
+miks	perché
+kuidas	come
+kui	quanto, se, quando
+mitu	quanti
+mitmes	quale (numero)
+milline	quale
+missugune	quale, che tipo
+kas	(domanda sì/no)
+ja	e
+ning	e
+või	o
+aga	ma
+et	che
+sest	perché
+siis	poi, allora
+nii	così
+ka	anche
+ainult	solo
+veel	ancora
+juba	già
+alati	sempre
+tihti	spesso
+mõnikord	a volte
+kunagi	mai, una volta
+mitte	non
+ei	non, no
+jah	sì
+pole	non è, non c'è
+väga	molto
+palju	molto, tanto
+vähe	poco
+natuke	un po'
+rohkem	di più
+kõige	il più
+ka	anche
+siin	qui
+seal	lì
+sinna	là (verso)
+siia	qui (verso)
+praegu	adesso
+nüüd	ora
+täna	oggi
+homme	domani
+eile	ieri
+ülehomme	dopodomani
+üleeile	l'altro ieri
+hiljem	più tardi
+varsti	presto
+kohe	subito
+enne	prima
+pärast	dopo
+koos	insieme
+üksi	da solo
+peaaegu	quasi
+umbes	circa
+kindlasti	sicuramente
+võib-olla	forse
+muidugi	certo
+tõesti	davvero
+hästi	bene
+halvasti	male
+kiiresti	velocemente
+aeglaselt	lentamente
+ilusti	bene, in modo bello
+jälle	di nuovo
+uuesti	di nuovo
+ikka	ancora, sempre
+lihtsalt	semplicemente
+eriti	soprattutto
+kahjuks	purtroppo
+õnneks	per fortuna
+noh	beh
+vau	wow
+oi	oh
+selge	chiaro
+tore	bello, carino
+okei	va bene
+nagu	come
+kui	quando, se
+kuigi	anche se
+sellepärast	per questo
+ilma	senza
+kaudu	attraverso
+vastu	contro
+pool	metà
+kell	ora, orologio
+# verbi
+olema	essere
+minema	andare
+tulema	venire
+tegema	fare
+elama	vivere
+töötama	lavorare
+õppima	studiare, imparare
+rääkima	parlare
+ütlema	dire
+küsima	chiedere
+vastama	rispondere
+teadma	sapere
+tundma	conoscere, sentire
+oskama	saper fare
+võima	potere
+saama	potere, ricevere, diventare
+pidama	dovere
+tahtma	volere
+soovima	desiderare
+meeldima	piacere
+armastama	amare
+nägema	vedere
+vaatama	guardare
+kuulama	ascoltare
+kuulma	sentire
+lugema	leggere
+kirjutama	scrivere
+sööma	mangiare
+jooma	bere
+magama	dormire
+ärkama	svegliarsi
+tõusma	alzarsi
+pesema	lavare
+panema	mettere
+võtma	prendere
+andma	dare
+ostma	comprare
+müüma	vendere
+maksma	pagare, costare
+sõitma	viaggiare (con un mezzo)
+jalutama	passeggiare
+käima	andare (abitualmente), frequentare
+jooksma	correre
+ujuma	nuotare
+mängima	giocare, suonare
+laulma	cantare
+tantsima	ballare
+istuma	sedere
+seisma	stare in piedi
+ootama	aspettare
+algama	cominciare
+lõppema	finire
+alustama	cominciare
+lõpetama	finire
+hakkama	cominciare
+jääma	restare
+helistama	telefonare
+kutsuma	invitare, chiamare
+aitama	aiutare
+näitama	mostrare
+pakkuma	offrire
+tooma	portare
+viima	portare (via)
+tutvustama	presentare
+kohtuma	incontrarsi
+külastama	visitare
+sobima	andare bene
+mõtlema	pensare
+arvama	pensare, credere
+uskuma	credere
+loodama	sperare
+unustama	dimenticare
+mäletama	ricordare
+aru saama	capire
+kordama	ripetere
+parandama	correggere, riparare
+avama	aprire
+sulgema	chiudere
+puhkama	riposare
+valutama	far male
+tervitama	salutare
+tänama	ringraziare
+vabandama	scusarsi
+astuma	fare un passo, entrare
+nutma	piangere
+naerma	ridere
+valmistama	preparare
+keetma	cuocere, bollire
+küpsetama	cuocere al forno
+koristama	pulire
+õpetama	insegnare
+kasutama	usare
+leidma	trovare
+otsima	cercare
+kaotama	perdere
+muutma	cambiare
+muutuma	cambiare (diventare)
+proovima	provare
+reisima	viaggiare
+lendama	volare
+sadama	piovere, cadere (neve)
+paistma	splendere, sembrare
+puhuma	soffiare
+elama	vivere
+kolima	traslocare
+üürima	affittare
+remontima	ristrutturare
+broneerima	prenotare
+tellima	ordinare
+kinkima	regalare
+õnnitlema	fare gli auguri
+sündima	nascere
+surema	morire
+abielluma	sposarsi
+haigestuma	ammalarsi
+paranema	guarire
+tundma	sentire, conoscere
+kartma	avere paura
+muretsema	preoccuparsi
+rõõmustama	rallegrarsi
+väsima	stancarsi
+kandma	portare, indossare
+riietuma	vestirsi
+selga panema	indossare
+proovima	provare
+# persone
+inimene	persona
+mees	uomo
+naine	donna, moglie
+poiss	ragazzo
+tüdruk	ragazza
+laps	bambino
+sõber	amico
+sõbranna	amica
+kolleeg	collega
+naaber	vicino di casa
+ema	madre
+isa	padre
+vend	fratello
+õde	sorella
+poeg	figlio
+tütar	figlia
+vanaema	nonna
+vanaisa	nonno
+vanemad	genitori
+perekond	famiglia
+pere	famiglia
+abikaasa	coniuge
+tädi	zia
+onu	zio
+õpetaja	insegnante
+õpilane	studente
+üliõpilane	studente universitario
+arst	medico
+perearst	medico di famiglia
+õde	sorella, infermiera
+müüja	commesso
+teenindaja	cameriere, addetto
+klient	cliente
+turist	turista
+juht	capo, autista
+direktor	direttore
+töötaja	lavoratore
+eestlane	estone
+itaallane	italiano
+venelane	russo
+soomlane	finlandese
+taimetoitlane	vegetariano
+külaline	ospite
+peremees	padrone di casa
+perenaine	padrona di casa
+# luoghi
+linn	città
+küla	villaggio
+maa	campagna, terra, paese
+riik	stato, paese
+kodu	casa
+maja	casa, edificio
+korter	appartamento
+tuba	stanza
+köök	cucina
+vannituba	bagno
+magamistuba	camera da letto
+elutuba	soggiorno
+kool	scuola
+klass	classe
+ülikool	università
+pood	negozio
+turg	mercato
+kohvik	caffetteria
+restoran	ristorante
+baar	bar
+haigla	ospedale
+apteek	farmacia
+pank	banca
+postkontor	ufficio postale
+raamatukogu	biblioteca
+kino	cinema
+teater	teatro
+muuseum	museo
+kirik	chiesa
+park	parco
+mets	bosco
+meri	mare
+rand	spiaggia
+järv	lago
+jõgi	fiume
+saar	isola
+raba	torbiera
+tänav	via, strada
+tee	strada, tè
+väljak	piazza
+peatus	fermata
+jaam	stazione
+lennujaam	aeroporto
+sadam	porto
+hotell	hotel
+kontor	ufficio
+töö	lavoro
+tööl	al lavoro
+saun	sauna
+vanalinn	città vecchia
+keskus	centro
+kesklinn	centro città
+koht	posto
+uks	porta
+aken	finestra
+laud	tavolo
+tool	sedia
+voodi	letto
+diivan	divano
+kapp	armadio
+riiul	scaffale
+põrand	pavimento
+sein	parete
+lagi	soffitto
+korrus	piano
+lift	ascensore
+trepp	scala
+# trasporti
+buss	autobus
+rong	treno
+auto	macchina
+takso	taxi
+tramm	tram
+troll	filobus
+jalgratas	bicicletta
+lennuk	aereo
+laev	nave
+praam	traghetto
+pilet	biglietto
+juhiluba	patente
+# cibo
+söök	cibo, pasto
+jook	bevanda
+vesi	acqua
+kohv	caffè
+tee	tè
+piim	latte
+õlu	birra
+vein	vino
+mahl	succo
+leib	pane nero
+sai	pane bianco
+juust	formaggio
+vorst	salame, salsiccia
+kala	pesce
+liha	carne
+kana	pollo
+muna	uovo
+või	burro, o
+supp	zuppa
+salat	insalata
+kartul	patata
+riis	riso
+pasta	pasta
+pitsa	pizza
+õun	mela
+pirn	pera
+banaan	banana
+apelsin	arancia
+maasikas	fragola
+tomat	pomodoro
+kurk	cetriolo
+porgand	carota
+sibul	cipolla
+kook	torta
+jäätis	gelato
+šokolaad	cioccolato
+suhkur	zucchero
+sool	sale
+pipar	pepe
+hommikusöök	colazione
+lõuna	pranzo, sud
+lõunasöök	pranzo
+õhtusöök	cena
+menüü	menù
+arve	conto
+tass	tazza
+klaas	bicchiere
+pudel	bottiglia
+taldrik	piatto
+kahvel	forchetta
+nuga	coltello
+lusikas	cucchiaio
+kilo	chilo
+gramm	grammo
+liiter	litro
+pakk	pacchetto
+tükk	pezzo
+# tempo
+aeg	tempo
+aasta	anno
+kuu	mese, luna
+nädal	settimana
+päev	giorno
+öö	notte
+hommik	mattino
+lõuna	mezzogiorno
+õhtu	sera
+tund	ora, lezione
+minut	minuto
+sekund	secondo
+nädalavahetus	fine settimana
+esmaspäev	lunedì
+teisipäev	martedì
+kolmapäev	mercoledì
+neljapäev	giovedì
+reede	venerdì
+laupäev	sabato
+pühapäev	domenica
+jaanuar	gennaio
+veebruar	febbraio
+märts	marzo
+aprill	aprile
+mai	maggio
+juuni	giugno
+juuli	luglio
+august	agosto
+september	settembre
+oktoober	ottobre
+november	novembre
+detsember	dicembre
+kevad	primavera
+suvi	estate
+sügis	autunno
+talv	inverno
+puhkus	vacanza
+pidu	festa
+sünnipäev	compleanno
+jõulud	Natale
+jaanipäev	festa di San Giovanni
+kingitus	regalo
+# meteo
+ilm	tempo (meteo)
+päike	sole
+vihm	pioggia
+lumi	neve
+tuul	vento
+pilv	nuvola
+külm	freddo
+soe	caldo, tiepido
+kuum	molto caldo
+kraad	grado
+# numeri
+null	zero
+üks	uno
+kaks	due
+kolm	tre
+neli	quattro
+viis	cinque
+kuus	sei
+seitse	sette
+kaheksa	otto
+üheksa	nove
+kümme	dieci
+sada	cento
+tuhat	mille
+miljon	milione
+pool	mezzo
+veerand	quarto
+esimene	primo
+teine	secondo
+kolmas	terzo
+neljas	quarto
+viies	quinto
+pluss	più
+euro	euro
+sent	centesimo
+raha	soldi
+hind	prezzo
+# corpo e salute
+keha	corpo
+pea	testa
+silm	occhio
+kõrv	orecchio
+nina	naso
+suu	bocca
+hammas	dente
+kael	collo
+kurk	gola
+käsi	mano, braccio
+sõrm	dito
+jalg	gamba, piede
+selg	schiena
+kõht	pancia
+süda	cuore
+juuksed	capelli
+tervis	salute
+haige	malato
+terve	sano, intero
+palavik	febbre
+köha	tosse
+nohu	raffreddore
+valu	dolore
+rohi	medicina
+tablett	compressa
+retsept	ricetta
+viga	errore, problema
+# aggettivi
+suur	grande
+väike	piccolo
+noor	giovane
+vana	vecchio
+uus	nuovo
+hea	buono
+halb	cattivo
+ilus	bello
+inetu	brutto
+pikk	lungo, alto
+lühike	corto, basso
+kõrge	alto
+madal	basso
+lai	largo
+kitsas	stretto
+kallis	caro
+odav	economico
+raske	difficile, pesante
+kerge	facile, leggero
+lihtne	semplice
+huvitav	interessante
+igav	noioso
+lõbus	divertente
+rõõmus	allegro
+kurb	triste
+väsinud	stanco
+näljane	affamato
+janune	assetato
+vihane	arrabbiato
+õnnelik	felice
+rahulik	tranquillo
+närviline	nervoso
+tark	intelligente
+sõbralik	gentile, amichevole
+viisakas	educato
+kiire	veloce, di fretta
+aeglane	lento
+vaba	libero
+hõivatud	occupato
+puhas	pulito
+must	nero, sporco
+valge	bianco
+punane	rosso
+sinine	blu
+roheline	verde
+kollane	giallo
+hall	grigio
+pruun	marrone
+roosa	rosa
+lilla	viola
+oranž	arancione
+värv	colore
+õige	giusto
+vale	sbagliato
+valmis	pronto
+täis	pieno
+tühi	vuoto
+lähedal	vicino
+kaugel	lontano
+õnnelik	felice
+# vestiti
+riided	vestiti
+särk	camicia
+pluus	camicetta
+kleit	vestito (da donna)
+seelik	gonna
+püksid	pantaloni
+teksad	jeans
+jope	giacca
+mantel	cappotto
+kampsun	maglione
+müts	berretto
+sall	sciarpa
+kindad	guanti
+kingad	scarpe
+saapad	stivali
+suurus	taglia
+# altre parole frequenti
+asi	cosa
+sõna	parola
+lause	frase
+keel	lingua
+eesti	estone
+eesti keel	lingua estone
+inglise	inglese
+itaalia	italiano
+vene	russo
+soome	finlandese
+nimi	nome
+eesnimi	nome
+perekonnanimi	cognome
+aadress	indirizzo
+telefon	telefono
+number	numero
+raamat	libro
+ajaleht	giornale
+kiri	lettera
+pilt	immagine, foto
+foto	foto
+film	film
+muusika	musica
+laul	canzone
+mäng	gioco
+sport	sport
+hobi	hobby
+vaba aeg	tempo libero
+küsimus	domanda
+vastus	risposta
+probleem	problema
+idee	idea
+plaan	piano
+kord	volta
+rõhk	accento
+silp	sillaba
+verb	verbo
+vorm	forma
+lõpp	fine
+algus	inizio
+pool	parte, metà
+osa	parte
+tükk	pezzo
+uudis	notizia
+abi	aiuto
+loom	animale
+lemmikloom	animale domestico
+kass	gatto
+koer	cane
+lind	uccello
+lill	fiore
+puu	albero
+võti	chiave
+kott	borsa
+kaart	carta, mappa
+ID-kaart	carta d'identità
+pakk	pacco
+tšekk	scontrino
+allahindlus	sconto
+kuulutus	annuncio
+üür	affitto
+leping	contratto
+koosolek	riunione
+puhkepäev	giorno libero
+amet	professione
+palk	stipendio
+firma	ditta
+arvuti	computer
+e-kiri	email
+kõne	telefonata, discorso
+sõnum	messaggio
+kohtumine	appuntamento, incontro
+aeg	tempo, appuntamento
+matemaatika	matematica
+matemaatikaõpetaja	insegnante di matematica
+hommikusöök	colazione
+lõpus	alla fine
+kogemata	per sbaglio
+kõrval	accanto
+kogemata	per sbaglio
+muutuma	cambiare
+tavaline	normale
+lühike	breve
+uni	sonno
+öösel	di notte
+tavalisem	più comune
+olevik	presente
+bussijaam	stazione degli autobus
+järjekord	ordine, coda
+näide	esempio
+sõnastik	dizionario
+teema	tema, argomento
+tüvi	radice
+alla	giù, sotto
+eitus	negazione
+helisema	squillare
+isik	persona
+juures	presso, da
+kaheksateist	diciotto
+kellaaeg	ora (dell'orologio)
+kiitma	lodare
+kogu	tutto, intero
+kolmapäeviti	il mercoledì (ogni)
+teisipäeviti	il martedì (ogni)
+kuni	fino a
+lemmikpäev	giorno preferito
+läbi	finito, attraverso
+mänguasi	giocattolo
+mõte	idea, pensiero
+tekst	testo
+tähtis	importante
+töökoht	posto di lavoro
+ujumine	nuoto
+ah	ah
