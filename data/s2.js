@@ -371,7 +371,7 @@
     ["sõbralik", "gentile, amichevole", "😊", "Inimesed on sõbralikud."],
     ["kontor", "ufficio", "🏢", "Ma töötan kontoris."],
     ["nädalavahetus", "fine settimana", "🏖️", "Nädalavahetusel ma puhkan."],
-    ["puhkama", "riposare", "🛋️", "Pühapäeval me puhkame."],
+    ["puhkama", "riposare", "😌", "Pühapäeval me puhkame."],
     ["väsinud", "stanco", "😩", "Õhtul ma olen väsinud."],
     ["raske", "difficile", "🏋️", "Eesti keel on raske, aga ilus."],
     ["huvitav", "interessante", "🤔", "See raamat on huvitav."],

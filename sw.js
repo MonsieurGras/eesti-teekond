@@ -1,5 +1,5 @@
 // Change VERSION on every update of the app.
-const VERSION = "v2-2026-11-07a";
+const VERSION = "v2-2026-11-07b";
 const CORE = ["./", "index.html", "style.css", "app.js", "data/icons.js", "data/s1.js", "data/s2.js", "data/s3.js", "data/s4.js", "data/s5.js", "data/s6.js", "data/gloss.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "icon-maskable-512.png"];
 
 self.addEventListener("install", e => {

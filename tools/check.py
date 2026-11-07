@@ -6,13 +6,13 @@ Run: python3 tools/check.py [--strict]
 - gloss: every token gets an Italian hint from the unit words, the unit's own `gl`, or tools/lex.tsv via its lemma
 """
 import json, re, subprocess, sys, os, collections
-from estnltk.vabamorf.morf import Vabamorf
+from estnltk.vabamorf.morf import Vabamorf, synthesize
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 units = json.loads(subprocess.check_output(["node", os.path.join(ROOT, "tools", "dump.js")]))
 vm = Vabamorf.instance()
 
-NAMES = set("""Mari Jaan Kati Tõnu Piret Toomas Liis Marco Anna Peeter Tallinn Tallinnas Tallinna Tallinnasse Tallinnast Tartu Tartus Tartusse Tartust Eesti Eestis Eestisse Eestist Itaalia Itaaliast Itaalias Itaaliasse Pärnu Pärnus Pärnusse Saaremaa Saaremaale Saaremaal Saaremaalt Kadri Mart Siim Laura Rooma Roomas Roomast Narva Narvas Euroopa Soome Soomes Selver Selveris Rimi Rimis Kalev Helen Andres Kristjan Maria Juhan Ott Eva Tiit Kersti Raul Malle Hiiumaa Hiiumaale Hiiumaal Viljandi Viljandis Otepää Otepääl Läänemeri Toompea Toompeal Raekoja Emajõgi Emajõe Vanalinn Riia Rakvere Haapsalu Haapsallu Kuressaare Kuressaarde Kuressaares Luca Siimul Liisil Marcol Maril Kati Katil Jaanil Siimu Liisi Marco Pireti Toomase Jaani Tiidu Kadrile Kadril Mardil Mart Liisile Siimule Marcole Jaanile Katile Andrese Helenil Laural Lauraga Mariga Jaaniga Katiga Marcoga Siimuga Liisiga Kristjanil Evaga Evale Evat Andrus Rasmus Rasmusel Rasmusele Eveli Kertu Kertul Kertule Ago Agole Aleksander Tiina Tiinal Tiinale Rein Reinul Reinule Maret Maretil Marko Margus Margusel Pille Pillel Pillele Linda Lindal Lindale Mika John Pierre Mikaga""".split())
+NAMES = set("""Mari Jaan Kati Tõnu Piret Toomas Liis Marco Anna Peeter Tallinn Tallinnas Tallinna Tallinnasse Tallinnast Tartu Tartus Tartusse Tartust Eesti Eestis Eestisse Eestist Itaalia Itaaliast Itaalias Itaaliasse Pärnu Pärnus Pärnusse Saaremaa Saaremaale Saaremaal Saaremaalt Kadri Mart Siim Laura Rooma Roomas Roomast Narva Narvas Euroopa Soome Soomes Selver Selveris Rimi Rimis Kalev Helen Andres Kristjan Maria Juhan Ott Eva Tiit Kersti Raul Malle Hiiumaa Hiiumaale Hiiumaal Viljandi Viljandis Otepää Otepääl Läänemeri Toompea Toompeal Raekoja Emajõgi Emajõe Vanalinn Riia Rakvere Haapsalu Haapsallu Kuressaare Kuressaarde Kuressaares Luca Siimul Liisil Marcol Maril Kati Katil Jaanil Siimu Liisi Marco Pireti Toomase Jaani Tiidu Kadrile Kadril Mardil Mart Liisile Siimule Marcole Jaanile Katile Andrese Helenil Laural Lauraga Mariga Jaaniga Katiga Marcoga Siimuga Liisiga Kristjanil Evaga Evale Evat Andrus Rasmus Rasmusel Rasmusele Eveli Kertu Kertul Kertule Ago Agole Aleksander Tiina Tiinal Tiinale Rein Reinul Reinule Maret Maretil Marko Margus Margusel Pille Pillel Pillele Linda Lindal Lindale Mika John Pierre Mikaga Marcolt Toomasega Toomas Lahemaa Lahemaale Lahemaal Kerstiga Kersti Kerstile""".split())
 
 lex = {}
 lexpath = os.path.join(ROOT, "tools", "lex.tsv")
@@ -37,6 +37,16 @@ for u in units:
     for g in u.get("gram", []):
         filled = g["q"].replace("___", g["a"])
         add("gram", re.sub(r"\(.*?\)", "", filled))
+        if g.get("v"):
+            lm, form = g["v"].split("|")
+            syn = [x for f in form.split(",") for x in synthesize(lm, f.strip())]
+            for ans in [g["a"]] + g.get("aa", []):
+                if ans.lower() not in [x.lower() for x in syn]:
+                    problems.append(f"U{uid} gram FORM: '{ans}' is not {lm} [{form}] (Vabamorf: {syn}) in: {g['q']}")
+            if "o" in g:
+                for o in g["o"]:
+                    if o != g["a"] and o not in g.get("aa", []) and o.lower() in [x.lower() for x in syn]:
+                        problems.append(f"U{uid} gram: wrong option '{o}' is also a valid {lm} [{form}] in: {g['q']}")
         if "o" in g:
             if g["a"] not in g["o"]: problems.append(f"U{uid} gram: answer '{g['a']}' not among options in: {g['q']}")
             if len(set(g["o"])) != len(g["o"]): problems.append(f"U{uid} gram: duplicate options in {g['q']}")
