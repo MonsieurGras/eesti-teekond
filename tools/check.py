@@ -60,7 +60,10 @@ for u in units:
             for alt in k.split("|"):
                 if not any(alt.lower() in a.lower() for a in q["a"]) and alt not in ("jah", "ei"):
                     pass
-        if not all(any(alt.lower() in q["a"][0].lower() for alt in k.split("|")) for k in q["k"]):
+        _t = [x.lower() for x in tokens(q["a"][0])]
+        def _ok(alt):
+            return any(t.endswith(alt[1:]) and len(t) > len(alt) - 1 for t in _t) if alt.startswith("-") else (alt.lower() in _t or " " in alt and alt.lower() in q["a"][0].lower())
+        if not all(any(_ok(alt) for alt in k.split("|")) for k in q["k"]):
             problems.append(f"U{uid} qa: sample answer fails its own keywords: {q['q']} → {q['a'][0]} / {q['k']}")
     for s in u.get("sit", []):
         add("sit-ctx", s["ctx"]); add("sit-line", s["line"][1] if s.get("line") else ""); add("sit-ok", s["o"][0])
@@ -87,6 +90,9 @@ bad = []
 for i in range(0, len(words), 500):
     for r in vm.spellcheck(words[i:i+500], suggestions=True):
         if not r["spelling"]: bad.append(r)
+_cap = {r["text"]: r["text"].capitalize() for r in bad}
+_capok = {x["text"] for x in vm.spellcheck(list(_cap.values()), suggestions=False) if x["spelling"]} if bad else set()
+bad = [r for r in bad if _cap[r["text"]] not in _capok]
 for r in bad:
     uid, where, t = toks_all[r["text"]]
     problems.append(f"U{uid} {where}: unknown word '{r['text']}' (suggest {r['suggestions'][:3]}) in: {t}")

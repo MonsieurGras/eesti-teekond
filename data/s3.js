@@ -57,7 +57,7 @@
   qa: [
     { q: "Kus sa praegu oled?", qi: "Dove sei adesso?", a: ["Ma olen kodus."], k: ["olen"] },
     { q: "Kuhu sa õhtul lähed?", qi: "Dove vai stasera?", a: ["Ma lähen kinno."], k: ["lähen"] },
-    { q: "Kust sa tuled?", qi: "Da dove vieni?", a: ["Ma tulen töölt."], k: ["tulen|st|lt"] },
+    { q: "Kust sa tuled?", qi: "Da dove vieni?", a: ["Ma tulen töölt."], k: ["tulen|-st|-lt"] },
     { q: "Kas sa käid saunas?", qi: "Vai in sauna?", a: ["Jah, laupäeviti."], k: ["jah|ei"] }
   ],
   sit: [
@@ -196,8 +196,8 @@
     { e: "Ei, see on väga lähedal.", i: "No, è molto vicina.", ia: ["No, è molto vicino."] }
   ],
   qa: [
-    { q: "Kuidas sa tööle sõidad?", qi: "Come vai al lavoro?", a: ["Ma sõidan bussiga."], k: ["ga|jalgsi"] },
-    { q: "Kellega sa kinno lähed?", qi: "Con chi vai al cinema?", a: ["Ma lähen sõbraga."], k: ["ga|üksi"] },
+    { q: "Kuidas sa tööle sõidad?", qi: "Come vai al lavoro?", a: ["Ma sõidan bussiga."], k: ["-ga|jalgsi"] },
+    { q: "Kellega sa kinno lähed?", qi: "Con chi vai al cinema?", a: ["Ma lähen sõbraga."], k: ["-ga|üksi"] },
     { q: "Kas sinu kodu on kesklinnast kaugel?", qi: "Casa tua è lontana dal centro?", a: ["Ei, see on lähedal."], k: ["kaugel|lähedal|jah|ei"] }
   ],
   sit: [
@@ -403,7 +403,7 @@
   ],
   qa: [
     { q: "Kas sa oled Tartus käinud?", qi: "Sei mai stato a Tartu?", a: ["Jah, mitu korda."], k: ["jah|ei"] },
-    { q: "Millega sa Tartusse sõidad?", qi: "Con che cosa vai a Tartu?", a: ["Ma sõidan rongiga."], k: ["ga"] },
+    { q: "Millega sa Tartusse sõidad?", qi: "Con che cosa vai a Tartu?", a: ["Ma sõidan rongiga."], k: ["-ga"] },
     { q: "Mida sa vanalinnas teed?", qi: "Che cosa fai nella città vecchia?", a: ["Ma jalutan ja teen pilti."], k: ["ma|mina"] }
   ],
   sit: [

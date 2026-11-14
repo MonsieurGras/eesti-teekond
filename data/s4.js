@@ -59,9 +59,9 @@
     { e: "Me ei teinud midagi.", i: "Non abbiamo fatto niente." }
   ],
   qa: [
-    { q: "Mida sa eile tegid?", qi: "Che cosa hai fatto ieri?", a: ["Eile ma töötasin."], k: ["sin|olin|tegin|läksin|käisin|ei"] },
+    { q: "Mida sa eile tegid?", qi: "Che cosa hai fatto ieri?", a: ["Eile ma töötasin."], k: ["-sin|olin|tegin|läksin|käisin|ei"] },
     { q: "Kus sa nädalavahetusel käisid?", qi: "Dove sei stato nel fine settimana?", a: ["Ma käisin Tartus."], k: ["käisin|olin|ei"] },
-    { q: "Mis on sinu hobi?", qi: "Qual è il tuo hobby?", a: ["Minu hobi on ujumine."], k: ["hobi|meeldib|mine"] },
+    { q: "Mis on sinu hobi?", qi: "Qual è il tuo hobby?", a: ["Minu hobi on ujumine."], k: ["hobi|meeldib|-mine"] },
     { q: "Kas sa vaatasid eile telekat?", qi: "Hai guardato la tv ieri?", a: ["Ei, ma ei vaadanud."], k: ["jah|ei"] }
   ],
   sit: [
@@ -205,7 +205,7 @@
   qa: [
     { q: "Mis teil viga on?", qi: "Che cos'ha?", a: ["Mul valutab kurk."], k: ["valutab|palavik|haige"] },
     { q: "Kas teil on palavik?", qi: "Ha la febbre?", a: ["Jah, kolmkümmend kaheksa kraadi."], k: ["jah|ei"] },
-    { q: "Mida teha, kui juhtub õnnetus?", qi: "Che cosa fare se succede un incidente?", a: ["Helistada 112."], k: ["112|kiirabi|helista"] }
+    { q: "Mida teha, kui juhtub õnnetus?", qi: "Che cosa fare se succede un incidente?", a: ["Tuleb helistada 112."], k: ["112|kiirabi|kiirabisse|helistada|helistan"] }
   ],
   sit: [
     { ctx: "Perearsti registratuur. Sa tahad arsti juurde aega.", line: ["Registratuur", "Tere! Kuidas saan aidata?"], o: ["Tere! Ma sooviksin aega arsti juurde. Mul on palavik.", "Tere! Ma olen arst.", "Tere! Mul valutan pea."] },
@@ -345,7 +345,7 @@
   qa: [
     { q: "Milline ilm täna on?", qi: "Che tempo fa oggi?", a: ["Täna sajab vihma."], k: ["sajab|paistab|puhub|külm|soe|pilves"] },
     { q: "Mis aastaaeg sulle kõige rohkem meeldib?", qi: "Qual è la stagione che ti piace di più?", a: ["Mulle meeldib kõige rohkem suvi."], k: ["talv|kevad|suvi|sügis"] },
-    { q: "Millal on sinu sünnipäev?", qi: "Quando è il tuo compleanno?", a: ["Minu sünnipäev on mais."], k: ["is|s|l"] }
+    { q: "Millal on sinu sünnipäev?", qi: "Quando è il tuo compleanno?", a: ["Minu sünnipäev on mais."], k: ["-s|-l"] }
   ],
   sit: [
     { ctx: "Sõber tahab jalutama minna, aga väljas sajab.", line: ["Sõber", "Lähme jalutama!"], o: ["Praegu sajab vihma. Lähme hiljem.", "Praegu sajab vihm.", "Praegu sadas vihma homme."] },
@@ -405,7 +405,7 @@
   qa: [
     { q: "Kas sa oskad suusatada?", qi: "Sai sciare?", a: ["Jah, natuke."], k: ["jah|ei|natuke"] },
     { q: "Mida sa talvel selga paned?", qi: "Che cosa ti metti in inverno?", a: ["Ma panen selga sooja mantli."], k: ["mantli|mantel|kampsun|sall|müts|kindad|panen"] },
-    { q: "Mis sa eile õhtul tegid?", qi: "Che cosa hai fatto ieri sera?", a: ["Ma lugesin raamatut."], k: ["sin|olin|tegin|läksin|käisin|ei"] }
+    { q: "Mis sa eile õhtul tegid?", qi: "Che cosa hai fatto ieri sera?", a: ["Ma lugesin raamatut."], k: ["-sin|olin|tegin|läksin|käisin|ei"] }
   ],
   sit: [
     { ctx: "Sõber kukkus jääl. Tal valutab käsi.", line: ["Sõber", "Ai! Mu käsi valutab!"], o: ["Lähme arsti juurde!", "Lähme arsti juures!", "Käsi on libe."] },

@@ -279,7 +279,7 @@
     { q: "Mis kell praegu on?", qi: "Che ore sono adesso?", a: ["Kell on kolm."], k: ["kell"] },
     { q: "Millal sa ärkad?", qi: "Quando ti svegli?", a: ["Ma ärkan kell seitse."], k: ["kell|hommikul"] },
     { q: "Mis päev täna on?", qi: "Che giorno è oggi?", a: ["Täna on laupäev."], k: ["esmaspäev|teisipäev|kolmapäev|neljapäev|reede|laupäev|pühapäev"] },
-    { q: "Millal on eesti keele tund?", qi: "Quando c'è la lezione di estone?", a: ["Teisipäeval kell viis."], k: ["päeval|reedel|kell|ti"] }
+    { q: "Millal on eesti keele tund?", qi: "Quando c'è la lezione di estone?", a: ["Teisipäeval kell viis."], k: ["-päeval|reedel|kell|-ti"] }
   ],
   sit: [
     { ctx: "Tänaval küsib keegi kellaaega. Kell on 4:30.", line: ["Mees", "Vabandust, mis kell on?"], o: ["Kell on pool viis.", "Kell on pool neli.", "Kell on neli pool."] },
